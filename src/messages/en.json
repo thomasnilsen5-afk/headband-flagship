@@ -1,0 +1,75 @@
+{
+  "brand": { "name": "HYAL", "descriptor": "Technical headbands" },
+  "meta": {
+    "title": "HYAL — Technical headbands, made elsewhere",
+    "description": "Headbands for training, sport and the everyday, built with a precision that does not quite belong here. Free shipping over NOK 999. 30-day returns."
+  },
+  "a11y": {
+    "skip": "Skip to content",
+    "menu": "Menu",
+    "close": "Close",
+    "soundOn": "Turn sound on",
+    "soundOff": "Turn sound off",
+    "motionOn": "Enable motion sensor",
+    "language": "Language",
+    "cart": "Cart, {count, plural, =0 {empty} one {# item} other {# items}}",
+    "objectCanvas": "Interactive 3D model of the headband. Move the pointer or scroll to see it from different angles."
+  },
+  "nav": {
+    "products": "Objects",
+    "drop": "Drop",
+    "search": "Search",
+    "account": "Account",
+    "cart": "Cart"
+  },
+  "home": {
+    "eyebrow": "Object 01 — headband",
+    "title": "Made elsewhere.",
+    "lede": "A band around the head, built with a precision that does not quite belong here.",
+    "cta": "See the objects",
+    "scroll": "Scroll",
+    "specimen": {
+      "label": "Specimen",
+      "title": "What you don't notice is what took us longest.",
+      "items": [
+        { "value": "18", "unit": "g", "label": "Weight. Less than a letter." },
+        {
+          "value": "0.4",
+          "unit": "mm",
+          "label": "Seam height. Flat-locked, invisible to the skin."
+        },
+        {
+          "value": "4",
+          "unit": "way",
+          "label": "Stretch. Holds its shape after a thousand washes."
+        }
+      ],
+      "macro": "×400 — knit structure, ISOBAR"
+    },
+    "objects": { "label": "The objects", "title": "Six forms. One idea.", "all": "All objects" },
+    "drop": {
+      "label": "Next drop",
+      "waitlist": "Notify me",
+      "live": "Out now",
+      "units": { "d": "days", "h": "hrs", "m": "min", "s": "sec" }
+    },
+    "manifesto": "Not from here."
+  },
+  "product": {
+    "from": "From",
+    "lowStock": "Only {count} left",
+    "soldOut": "Sold out",
+    "inStock": "In stock"
+  },
+  "footer": {
+    "tagline": "Technical headbands. Designed in Norway.",
+    "shipping": "Free shipping over NOK 999",
+    "returns": "30-day returns",
+    "privacy": "Privacy",
+    "terms": "Terms of sale",
+    "returnsLink": "Returns & withdrawal",
+    "cookies": "Cookies",
+    "org": "Org. no."
+  },
+  "notFound": { "title": "This place does not exist.", "back": "Back to start" }
+}
