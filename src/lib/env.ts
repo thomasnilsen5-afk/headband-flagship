@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { normalizeSiteUrl } from './url'
 
 /**
  * Public env (inlined at build time). Server secrets live in env.server.ts and must never be
@@ -11,22 +12,30 @@ const publicSchema = z.object({
   NEXT_PUBLIC_SENTRY_DSN: z.url().optional(),
 })
 
-export const publicEnv = publicSchema.parse({
+const parsed = publicSchema.safeParse({
   // Explicit site URL wins. On Vercel without one: production uses the project's production
   // domain (so canonical URLs are stable), previews use their own URL (they are noindex anyway).
   NEXT_PUBLIC_SITE_URL:
-    process.env.NEXT_PUBLIC_SITE_URL ||
-    (process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' &&
-    process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL
-      ? `https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`
-      : process.env.NEXT_PUBLIC_VERCEL_URL
-        ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-        : undefined),
-  NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL) ??
+    normalizeSiteUrl(
+      process.env.NEXT_PUBLIC_VERCEL_ENV === 'production'
+        ? process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL
+        : process.env.NEXT_PUBLIC_VERCEL_URL,
+    ),
+  NEXT_PUBLIC_SUPABASE_URL: normalizeSiteUrl(process.env.NEXT_PUBLIC_SUPABASE_URL),
   // The Supabase ↔ Vercel integration sets the legacy name; both work.
   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
   NEXT_PUBLIC_SENTRY_DSN: process.env.NEXT_PUBLIC_SENTRY_DSN || undefined,
 })
 
-export const siteUrl = publicEnv.NEXT_PUBLIC_SITE_URL.replace(/\/$/, '')
+if (!parsed.success) {
+  throw new Error(
+    `Invalid public environment variables:\n${parsed.error.issues
+      .map((i) => `  - ${i.path.join('.')}: ${i.message}`)
+      .join('\n')}\nSee README → Environment variables.`,
+  )
+}
+
+export const publicEnv = parsed.data
+export const siteUrl = publicEnv.NEXT_PUBLIC_SITE_URL
