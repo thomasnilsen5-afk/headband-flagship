@@ -20,7 +20,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       <HeroStage
         copy={{
           eyebrow: t('eyebrow'),
-          title: t('title'),
+          titleLines: t.raw('titleLines') as string[],
           lede: t('lede'),
           cta: t('cta'),
           scroll: t('scroll'),

@@ -1,5 +1,8 @@
 {
-  "brand": { "name": "HYAL", "descriptor": "Tekniske pannebånd" },
+  "brand": {
+    "name": "HYAL",
+    "descriptor": "Tekniske pannebånd"
+  },
   "meta": {
     "title": "HYAL — Tekniske pannebånd, laget et annet sted",
     "description": "Pannebånd for trening, sport og hverdag, konstruert med en presisjon som ikke helt hører hjemme her. Fri frakt over 999 kr. 30 dagers retur."
@@ -32,20 +35,42 @@
       "label": "Spesimen",
       "title": "Det du ikke merker, er det vi har brukt lengst tid på.",
       "items": [
-        { "value": "18", "unit": "g", "label": "Vekt. Mindre enn et brev." },
-        { "value": "0,4", "unit": "mm", "label": "Sømhøyde. Flatlåst, kjennes ikke mot huden." },
-        { "value": "4", "unit": "veis", "label": "Strekk. Holder formen etter tusen vask." }
+        {
+          "value": "18",
+          "unit": "g",
+          "label": "Vekt. Mindre enn et brev."
+        },
+        {
+          "value": "0,4",
+          "unit": "mm",
+          "label": "Sømhøyde. Flatlåst, kjennes ikke mot huden."
+        },
+        {
+          "value": "4",
+          "unit": "veis",
+          "label": "Strekk. Holder formen etter tusen vask."
+        }
       ],
       "macro": "×400 — strikkestruktur, ISOBAR"
     },
-    "objects": { "label": "Objektene", "title": "Seks former. Én idé.", "all": "Alle objekter" },
+    "objects": {
+      "label": "Objektene",
+      "title": "Seks former. Én idé.",
+      "all": "Alle objekter"
+    },
     "drop": {
       "label": "Neste drop",
       "waitlist": "Få beskjed",
       "live": "Ute nå",
-      "units": { "d": "døgn", "h": "timer", "m": "min", "s": "sek" }
+      "units": {
+        "d": "døgn",
+        "h": "timer",
+        "m": "min",
+        "s": "sek"
+      }
     },
-    "manifesto": "Ikke herfra."
+    "manifesto": "Ikke herfra.",
+    "titleLines": ["Laget et", "annet", "sted."]
   },
   "product": {
     "from": "Fra",
@@ -63,5 +88,8 @@
     "cookies": "Informasjonskapsler",
     "org": "Org.nr."
   },
-  "notFound": { "title": "Dette stedet finnes ikke.", "back": "Tilbake til start" }
+  "notFound": {
+    "title": "Dette stedet finnes ikke.",
+    "back": "Tilbake til start"
+  }
 }

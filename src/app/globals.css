@@ -33,7 +33,7 @@
   /* Fluid type scale */
   --text-micro: 0.6875rem;
   --text-micro--line-height: 1.4;
-  --text-mega: clamp(3.25rem, 12.5vw, 14rem);
+  --text-mega: clamp(3rem, 11vw, 14rem);
   --text-mega--line-height: 0.86;
   --text-giga: clamp(4.5rem, 24vw, 30rem);
   --text-giga--line-height: 0.8;

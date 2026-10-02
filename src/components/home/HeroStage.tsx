@@ -11,7 +11,8 @@ type SceneComponent = ComponentType<Parameters<typeof HeadbandScene>[0]>
 
 type Copy = {
   eyebrow: string
-  title: string
+  /** Explicit lines: the headline's height must not depend on font metrics (CLS). */
+  titleLines: string[]
   lede: string
   cta: string
   scroll: string
@@ -140,7 +141,7 @@ export function HeroStage({ copy }: { copy: Copy }) {
           className="pointer-events-none absolute inset-0 grid place-items-center transition-opacity duration-[1600ms] ease-fluid"
           style={{ opacity: ready ? 0 : 1 }}
         >
-          <div className="relative w-[min(92vw,64rem)] translate-y-[-4vh]">
+          <div className="relative w-[min(92vw,64rem)] translate-y-[14vh] md:translate-y-[-4vh]">
             <div className="band-glow" />
             <div className="band-css" />
           </div>
@@ -172,41 +173,49 @@ export function HeroStage({ copy }: { copy: Copy }) {
           </p>
         </div>
 
-        {/* Copy */}
-        <div className="shell pointer-events-none absolute inset-x-0 bottom-0 pb-[9vh]">
+        {/* Copy: anchored to the top so nothing above it can move when fonts arrive */}
+        <div className="shell pointer-events-none absolute inset-x-0 top-[24vh] md:top-[22vh]">
           <h1
             id="hero-title"
             ref={title}
-            className="type-display max-w-[12ch] text-mega will-change-[font-variation-settings]"
+            className="type-display text-mega will-change-[font-variation-settings]"
             style={{ transform: 'translate3d(0, calc(var(--p, 0) * -6vh), 0)' }}
           >
-            {copy.title}
+            {copy.titleLines.map((line, i) => (
+              <span key={line} className="block whitespace-nowrap">
+                {line}
+                {/* keep word boundaries in the accessible name and text content */}
+                {i < copy.titleLines.length - 1 && ' '}
+              </span>
+            ))}
           </h1>
-          <div className="mt-8 flex flex-wrap items-end justify-between gap-8">
-            <p className="max-w-[36ch] text-lg text-ash">{copy.lede}</p>
-            <div className="pointer-events-auto flex items-center gap-6">
-              {needsMotionPermission && (
-                <button
-                  type="button"
-                  onClick={requestTilt}
-                  className="type-label text-bone! underline underline-offset-8"
-                >
-                  {copy.motionOn}
-                </button>
-              )}
-              <Link
-                href="/products"
-                className="type-label group flex items-center gap-3 rounded-full border border-hairline-strong px-6 py-4 text-bone! transition-colors duration-500 hover:bg-bone hover:text-void!"
+          <p className="mt-8 max-w-[36ch] text-lg text-ash">{copy.lede}</p>
+        </div>
+
+        {/* Actions: positioned on their own, independent of the copy's height */}
+        <div className="shell pointer-events-none absolute inset-x-0 bottom-[9vh] flex justify-end">
+          <div className="pointer-events-auto flex items-center gap-6">
+            {needsMotionPermission && (
+              <button
+                type="button"
+                onClick={requestTilt}
+                className="type-label text-bone! underline underline-offset-8"
               >
-                {copy.cta}
-                <span
-                  aria-hidden
-                  className="transition-transform duration-700 ease-fluid group-hover:translate-x-1"
-                >
-                  →
-                </span>
-              </Link>
-            </div>
+                {copy.motionOn}
+              </button>
+            )}
+            <Link
+              href="/products"
+              className="type-label group flex items-center gap-3 rounded-full border border-hairline-strong px-6 py-4 text-bone! transition-colors duration-500 hover:bg-bone hover:text-void!"
+            >
+              {copy.cta}
+              <span
+                aria-hidden
+                className="transition-transform duration-700 ease-fluid group-hover:translate-x-1"
+              >
+                →
+              </span>
+            </Link>
           </div>
         </div>
 

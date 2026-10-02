@@ -33,8 +33,8 @@ function Band({ inputs, form, color = '#c9ccd4', onReady, mode = 'hero' }: Props
   const camera = useThree((s) => s.camera)
   const aspect = useThree((s) => s.size.width / Math.max(1, s.size.height))
 
-  // Portrait screens: pull the camera back so the object is (almost) whole, and lift it
-  // above the headline. A slight crop at the edges is intentional: monumental scale.
+  // Portrait screens: pull the camera back so the object is (almost) whole, and drop it
+  // below the copy. A slight crop at the edges is intentional: monumental scale.
   const portrait = aspect < 1
   useEffect(() => {
     camera.position.z = Math.max(4.6, 3.6 / aspect)
@@ -108,7 +108,7 @@ function Band({ inputs, form, color = '#c9ccd4', onReady, mode = 'hero' }: Props
     m.rotation.z = MathUtils.lerp(m.rotation.z, rz, damp)
     const scale = mode === 'hero' ? 1 - p * 0.18 : 1
     m.scale.setScalar(MathUtils.lerp(m.scale.x, scale, damp))
-    const lift = mode === 'hero' && portrait ? 0.55 : 0
+    const lift = mode === 'hero' && portrait ? -0.62 : 0
     m.position.y = MathUtils.lerp(m.position.y, lift + (mode === 'hero' ? p * 0.22 : 0), damp)
 
     // Adaptive quality: sustained slow frames drop the pixel ratio once.
