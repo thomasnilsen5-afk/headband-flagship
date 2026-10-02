@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import { AddToCart, type AddToCartCopy } from '@/components/cart/AddToCart'
 import { WaitlistForm, type WaitlistCopy } from '@/components/waitlist/WaitlistForm'
 import type { BandForm } from '@/gl/finishes'
 import type { Variant } from '@/lib/catalog'
@@ -12,8 +13,6 @@ export type ProductCopy = {
   color: string
   size: string
   sizeGuide: string
-  addToCart: string
-  checkoutSoon: string
   vat: string
   inStock: string
   soldOut: string
@@ -38,6 +37,7 @@ export function ProductExperience({
   locale,
   copy,
   waitlistCopy,
+  cartCopy,
   purchasable,
 }: {
   name: string
@@ -48,6 +48,7 @@ export function ProductExperience({
   locale: 'nb' | 'en'
   copy: ProductCopy
   waitlistCopy: WaitlistCopy
+  cartCopy: AddToCartCopy
   /** False before a drop goes live. */
   purchasable: boolean
 }) {
@@ -168,18 +169,11 @@ export function ProductExperience({
           />
         ) : (
           <div>
-            {/* Cart and checkout arrive in phase 4. */}
-            <button
-              type="button"
-              disabled
-              aria-describedby="cart-note"
-              className="type-label w-full rounded-full bg-bone px-8 py-5 text-void! opacity-50"
-            >
-              {copy.addToCart}
-            </button>
-            <p id="cart-note" className="mt-3 text-sm text-ash">
-              {purchasable ? copy.checkoutSoon : copy.dropNote}
-            </p>
+            {purchasable && variant ? (
+              <AddToCart key={variant.id} variantId={variant.id} locale={locale} copy={cartCopy} />
+            ) : (
+              <p className="border-t border-hairline pt-5 text-ash">{copy.dropNote}</p>
+            )}
           </div>
         )}
 

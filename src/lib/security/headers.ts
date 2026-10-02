@@ -5,12 +5,29 @@
  * can be served from the edge cache, which rules out per-request nonces. They therefore allow
  * inline scripts (Next's hydration payload) but nothing else: no third-party script origins
  * beyond the payment providers, no eval in production, no plugins, no framing, no base-uri.
- * Checkout, account and admin are dynamic; phase 4 adds a strict nonce-based CSP for them in
- * proxy.ts (browsers enforce both policies, so the stricter one wins there).
+ * Checkout, account and admin are dynamic and get a second, nonce-based policy from proxy.ts
+ * (strictCsp below). Browsers enforce every policy they receive, so there the stricter one wins.
  */
+const PAYMENT_ORIGINS = [
+  'https://checkout.stripe.com',
+  'https://*.vipps.no',
+  'https://*.mobilepay.dk',
+  'https://*.mobilepay.fi',
+  'https://*.klarna.com',
+]
+
+/** Per-request policy for the money pages: only scripts carrying this response's nonce run. */
+export function strictCsp(nonce: string, dev: boolean): string {
+  return [
+    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${dev ? " 'unsafe-eval'" : ''}`,
+    "object-src 'none'",
+    "base-uri 'self'",
+  ].join('; ')
+}
+
 export function buildCsp({ supabaseUrl, dev }: { supabaseUrl: string; dev: boolean }): string {
   const supabase = new URL(supabaseUrl)
-  const supabaseWs = `wss://${supabase.host}`
+  const supabaseWs = `${supabase.protocol === 'https:' ? 'wss' : 'ws'}://${supabase.host}`
   const directives: Record<string, string[]> = {
     'default-src': ["'self'"],
     'script-src': [
@@ -38,7 +55,9 @@ export function buildCsp({ supabaseUrl, dev }: { supabaseUrl: string; dev: boole
     'media-src': ["'self'", 'blob:', supabase.origin],
     'object-src': ["'none'"],
     'base-uri': ["'self'"],
-    'form-action': ["'self'"],
+    // Non-JS form posts to the checkout action end in a redirect to the payment provider, and
+    // Chromium checks form-action against redirect targets too.
+    'form-action': ["'self'", ...PAYMENT_ORIGINS],
     'frame-ancestors': ["'none'"],
     'manifest-src': ["'self'"],
   }

@@ -1,4 +1,5 @@
 import { getTranslations } from 'next-intl/server'
+import { CartButton } from '@/components/cart/CartButton'
 import { Link } from '@/i18n/navigation'
 import { brand } from '@/lib/brand'
 import { LocaleSwitch } from './LocaleSwitch'
@@ -8,6 +9,7 @@ import { Wordmark } from './Wordmark'
 
 export async function Header() {
   const t = await getTranslations('nav')
+  const ta = await getTranslations('a11y')
   const items = [
     { href: '/products', label: t('products') },
     { href: { pathname: '/drops/[slug]', params: { slug: 'halcyon' } }, label: t('drop') },
@@ -40,9 +42,7 @@ export async function Header() {
         <div className="flex items-center gap-5">
           <SoundToggle />
           <LocaleSwitch className="hidden md:flex" />
-          <Link href="/cart" className="type-label text-bone! tabular-nums">
-            {t('cart')} <span className="type-data">(0)</span>
-          </Link>
+          <CartButton label={t('cart')} a11y={ta.raw('cart') as string} />
           <MobileMenu items={items.map((i) => ({ href: i.href, label: i.label }))} />
         </div>
       </div>

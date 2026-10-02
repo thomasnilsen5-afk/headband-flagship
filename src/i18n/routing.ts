@@ -20,6 +20,8 @@ export const routing = defineRouting({
     '/search': { nb: '/sok', en: '/search' },
     '/cart': { nb: '/handlekurv', en: '/cart' },
     '/checkout': { nb: '/kasse', en: '/checkout' },
+    '/checkout/confirmation': { nb: '/kasse/bekreftelse', en: '/checkout/confirmation' },
+    '/checkout/test-payment': { nb: '/kasse/testbetaling', en: '/checkout/test-payment' },
     '/account': { nb: '/konto', en: '/account' },
     '/privacy': { nb: '/personvern', en: '/privacy' },
     '/terms': { nb: '/vilkar', en: '/terms' },
