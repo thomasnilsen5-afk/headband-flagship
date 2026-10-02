@@ -1,0 +1,7 @@
+pnpm-lock.yaml
+.next
+supabase/.temp
+src/lib/supabase/database.types.ts
+supabase/migrations
+supabase/seed.sql
+pnpm-lock.yaml
