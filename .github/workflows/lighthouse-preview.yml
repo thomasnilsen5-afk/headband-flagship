@@ -7,7 +7,8 @@ on:
 
 jobs:
   lighthouse:
-    if: github.event.deployment_status.state == 'success' && github.event.deployment_status.environment == 'Preview'
+    # Vercel names environments "Preview" or "Preview – <project>".
+    if: github.event.deployment_status.state == 'success' && startsWith(github.event.deployment_status.environment, 'Preview')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
