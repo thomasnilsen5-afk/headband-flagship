@@ -12,11 +12,16 @@ const publicSchema = z.object({
 })
 
 export const publicEnv = publicSchema.parse({
+  // Explicit site URL wins. On Vercel without one: production uses the project's production
+  // domain (so canonical URLs are stable), previews use their own URL (they are noindex anyway).
   NEXT_PUBLIC_SITE_URL:
-    process.env.NEXT_PUBLIC_SITE_URL ??
-    (process.env.NEXT_PUBLIC_VERCEL_URL
-      ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-      : undefined),
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    (process.env.NEXT_PUBLIC_VERCEL_ENV === 'production' &&
+    process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`
+      : process.env.NEXT_PUBLIC_VERCEL_URL
+        ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+        : undefined),
   NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
   // The Supabase ↔ Vercel integration sets the legacy name; both work.
   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:
