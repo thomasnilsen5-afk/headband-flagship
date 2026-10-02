@@ -223,7 +223,7 @@
     position: relative;
     aspect-ratio: 1;
     border-radius: 50%;
-    transform: perspective(1400px) rotateX(var(--band-tilt)) rotateZ(-8deg);
+    transform: perspective(1400px) rotateZ(var(--band-roll, -8deg)) rotateX(var(--band-tilt));
     background: conic-gradient(
       from var(--film-angle),
       var(--band-a, var(--color-ichor)),

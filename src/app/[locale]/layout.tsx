@@ -3,7 +3,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import type { Metadata, Viewport } from 'next'
 import { notFound } from 'next/navigation'
 import { hasLocale, NextIntlClientProvider } from 'next-intl'
-import { getTranslations, setRequestLocale } from 'next-intl/server'
+import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server'
 import type { ReactNode } from 'react'
 import { anybody, azeret } from '@/app/fonts'
 import { CursorHalo } from '@/components/shell/CursorHalo'
@@ -68,17 +68,19 @@ export default async function LocaleLayout({
   if (!hasLocale(routing.locales, locale)) notFound()
   setRequestLocale(locale)
   const t = await getTranslations({ locale, namespace: 'a11y' })
+  // Client components only need these namespaces; the rest stays on the server.
+  const { a11y } = await getMessages({ locale })
 
   return (
     <html lang={locale === 'nb' ? 'nb' : 'en'} className={`${anybody.variable} ${azeret.variable}`}>
       <body>
         <a
           href="#main"
-          className="type-label bg-bone text-void! fixed top-3 left-3 z-[100] -translate-y-24 px-4 py-3 transition-transform focus:translate-y-0"
+          className="type-label fixed top-3 left-3 z-[100] -translate-y-24 bg-bone px-4 py-3 text-void! transition-transform focus:translate-y-0"
         >
           {t('skip')}
         </a>
-        <NextIntlClientProvider>
+        <NextIntlClientProvider messages={{ a11y }}>
           <SmoothScroll />
           <NavigationTransitions />
           <Header />
@@ -89,8 +91,12 @@ export default async function LocaleLayout({
           <CursorHalo />
         </NextIntlClientProvider>
         <div className="grain" aria-hidden />
-        <Analytics />
-        <SpeedInsights />
+        {process.env.VERCEL && (
+          <>
+            <Analytics />
+            <SpeedInsights />
+          </>
+        )}
       </body>
     </html>
   )

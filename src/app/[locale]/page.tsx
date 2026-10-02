@@ -1,29 +1,40 @@
 import { getTranslations, setRequestLocale } from 'next-intl/server'
-import { Link } from '@/i18n/navigation'
+import { DropTeaser } from '@/components/home/DropTeaser'
+import { HeroStage } from '@/components/home/HeroStage'
+import { Manifesto } from '@/components/home/Manifesto'
+import { Objects } from '@/components/home/Objects'
+import { Specimen } from '@/components/home/Specimen'
+import { Reveal } from '@/components/motion/Reveal'
+
+// Catalog and drop data are re-fetched at most every 5 minutes (ISR).
+export const revalidate = 300
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   setRequestLocale(locale)
   const t = await getTranslations('home')
+  const a = await getTranslations('a11y')
+
   return (
-    <section className="relative grid min-h-dvh place-items-center overflow-hidden">
-      <div className="pointer-events-none absolute inset-0 grid place-items-center" aria-hidden>
-        <div className="relative w-[min(86vw,62rem)]">
-          <div className="band-glow" />
-          <div className="band-css" />
-        </div>
-      </div>
-      <div className="shell relative z-10 flex min-h-dvh flex-col justify-end pb-[12vh]">
-        <p className="type-label mb-6">{t('eyebrow')}</p>
-        <h1 className="type-display text-mega max-w-[11ch]">{t('title')}</h1>
-        <p className="text-ash mt-8 max-w-[38ch] text-lg">{t('lede')}</p>
-        <Link
-          href="/products"
-          className="type-label border-hairline-strong text-bone! mt-10 w-fit border-b pb-1"
-        >
-          {t('cta')}
-        </Link>
-      </div>
-    </section>
+    <>
+      <HeroStage
+        copy={{
+          eyebrow: t('eyebrow'),
+          title: t('title'),
+          lede: t('lede'),
+          cta: t('cta'),
+          scroll: t('scroll'),
+          canvasLabel: a('objectCanvas'),
+          motionOn: a('motionOn'),
+          booting: locale === 'nb' ? 'Initialiserer objekt' : 'Initialising object',
+          live: locale === 'nb' ? 'Objekt 01 · sanntid' : 'Object 01 · real time',
+        }}
+      />
+      <Specimen />
+      <Objects />
+      <DropTeaser />
+      <Manifesto />
+      <Reveal />
+    </>
   )
 }

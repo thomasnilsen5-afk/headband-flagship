@@ -17,6 +17,8 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     optimizePackageImports: ['three', '@react-three/fiber'],
+    // ~11 KB of CSS: inlining removes two render-blocking requests from the LCP path.
+    inlineCss: true,
   },
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders({ supabaseUrl, dev }) }]

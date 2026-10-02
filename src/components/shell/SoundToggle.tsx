@@ -102,13 +102,13 @@ export function SoundToggle() {
       aria-pressed={on}
       aria-label={on ? t('soundOff') : t('soundOn')}
       onClick={() => setOn((v) => !v)}
-      className="group text-bone flex h-6 items-center gap-[3px] px-1"
+      className="group flex h-6 items-center gap-[3px] px-1 text-bone"
     >
       {[0.5, 1, 0.7, 0.35].map((h, i) => (
         <span
           key={i}
           aria-hidden
-          className="ease-fluid block w-px origin-center bg-current transition-transform duration-700"
+          className="block w-px origin-center bg-current transition-transform duration-700 ease-fluid"
           style={{
             height: '14px',
             transform: `scaleY(${on ? h : 0.15})`,

@@ -65,7 +65,7 @@ Supabase Storage ── product-media (public) · review-media (owner folders, v
 ### Phases
 
 1. **Foundation:** repo, CI, Supabase schema + RLS + SQL commerce functions + seed, design system, i18n, security headers ✅
-2. **Hero + landing:** real-time WebGL band, scroll choreography, screenshot moments
+2. **Hero + landing:** real-time WebGL band, scroll choreography, screenshot moments ✅
 3. **Catalog + product pages:** 3D viewer, variants, live stock, bundles, drops with countdown + waitlist
 4. **Cart + checkout + payments:** Stripe (cards, Apple/Google Pay, Klarna), Vipps MobilePay, Bring/Posten shipping, rate limiting, strict CSP
 5. **Accounts + emails + admin:** Supabase Auth, order history, addresses, returns, wishlist, Resend + React Email flows, role-based admin
@@ -164,6 +164,18 @@ actor). `reserved` should equal the sum of `inventory_reservations` with status 
 
 **Rotate a secret.** Update it in Vercel (and GitHub if used by CI), redeploy. Supabase keys rotate
 independently (publishable/secret keys).
+
+**Performance budget.** Lighthouse runs twice in CI. `ci.yml` measures the local production
+build (`next start`: HTTP/1.1 + gzip, which Lighthouse's simulation penalises) as a regression
+guard: performance ≥ 90, accessibility/best practices/SEO ≥ 95. `lighthouse-preview.yml` measures
+the real Vercel preview (HTTP/2 + Brotli + edge) and enforces performance ≥ 95 and LCP ≤ 2.5 s on
+mobile. It needs the repository secret `VERCEL_AUTOMATION_BYPASS_SECRET` (Vercel → Project →
+Settings → Deployment Protection → Protection Bypass for Automation).
+
+How the hero stays fast: the headline is plain HTML/CSS and is the LCP element; the CSS band
+paints instantly; three.js (~250 KB gz) loads only on capable devices, after first interaction or
+browser idle (touch devices wait for a touch or scroll), and crossfades in. Sentry's browser SDK
+loads after `load`. CSS is inlined. Fonts are subset variable fonts (49 KB + 21 KB).
 
 **Accepted advisor findings.** `request_return` is SECURITY DEFINER on purpose (it is the only door
 into `returns` and enforces ownership + the return window). Catalog tables keep a staff "for all"

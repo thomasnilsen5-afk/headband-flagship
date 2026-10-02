@@ -43,7 +43,7 @@ export function MobileMenu({ items }: { items: Item[] }) {
         id="mobile-menu"
         ref={dialogRef}
         onClose={() => setOpen(false)}
-        className="bg-void text-bone backdrop:bg-void/80 m-0 h-dvh max-h-none w-screen max-w-none p-0 md:hidden"
+        className="m-0 h-dvh max-h-none w-screen max-w-none bg-void p-0 text-bone backdrop:bg-void/80 md:hidden"
       >
         <div className="shell flex h-full flex-col pt-5 pb-10">
           <div className="flex justify-end">

@@ -29,7 +29,7 @@ export function LocaleSwitch({ className = '' }: { className?: string }) {
               router.replace({ pathname, params }, { locale: l as Locale, scroll: false })
             })
           }
-          className="type-label text-bone! uppercase transition-opacity hover:opacity-100 aria-[pressed=false]:opacity-40"
+          className="type-label text-bone! uppercase transition-opacity hover:opacity-100 aria-[pressed=false]:opacity-60"
         >
           {l === 'nb' ? 'NO' : 'EN'}
         </button>

@@ -12,6 +12,7 @@ const config = [
       'src/lib/supabase/database.types.ts',
       'playwright-report/**',
       '.lighthouseci/**',
+      'coverage/**',
     ],
   },
   {
@@ -23,6 +24,12 @@ const config = [
       '@typescript-eslint/consistent-type-imports': 'error',
       'no-console': ['error', { allow: ['warn', 'error'] }],
     },
+  },
+  {
+    // three.js objects are mutable by design: R3F mutates materials and meshes inside
+    // useFrame, outside React's render phase. The compiler's immutability rule can't see that.
+    files: ['src/gl/**'],
+    rules: { 'react-hooks/immutability': 'off' },
   },
 ]
 
