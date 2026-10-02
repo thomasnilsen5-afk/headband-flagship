@@ -602,6 +602,9 @@ isOneToOne: false
         isOneToOne: true
         isSetofReturn: false
       } },
+"claim_guest_orders":
+{ Args: Record<PropertyKey, never>; Returns: number
+                           },
 "claim_webhook_event":
 { Args: { "p_event_id": string,"p_payload": Json,"p_provider": string,"p_type": string }; Returns: boolean
                            },

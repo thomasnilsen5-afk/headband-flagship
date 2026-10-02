@@ -1,32 +1,10 @@
-import { expect, test, type Page } from '@playwright/test'
+import { expect, test } from '@playwright/test'
+import { checkoutToTestPayment as fillCheckout } from './helpers'
 
 /**
  * The full purchase flow against a real database (local Supabase in CI) with the simulated
  * payment provider. Each test runs in its own browser context, so each gets its own cart.
  */
-async function fillCheckout(page: Page) {
-  await page.goto('/produkter/nacre')
-  await page.getByRole('button', { name: 'Legg i kurv' }).click()
-  await expect(page.getByRole('link', { name: /Handlekurv, 1 varer/ })).toBeVisible()
-  await page.getByRole('link', { name: /Gå til kurven/ }).click()
-
-  await expect(page).toHaveURL(/\/handlekurv$/)
-  await expect(page.getByText('NACRE').first()).toBeVisible()
-  await page.getByRole('link', { name: 'Til kassen' }).click()
-
-  await expect(page).toHaveURL(/\/kasse$/)
-  await page.getByRole('textbox', { name: 'E-post', exact: true }).fill('e2e@example.com')
-  await page.getByRole('textbox', { name: /^Mobil/ }).fill('41234567')
-  await page.getByRole('textbox', { name: 'Fullt navn', exact: true }).fill('Test Testesen')
-  await page.getByRole('textbox', { name: 'Adresse', exact: true }).fill('Testveien 1')
-  await page.getByRole('textbox', { name: 'Postnummer', exact: true }).fill('0150')
-  await page.getByRole('textbox', { name: 'Sted', exact: true }).fill('Oslo')
-  await page.getByRole('radio', { name: /Testbetaling/ }).check()
-  await page.getByRole('checkbox', { name: /Jeg godtar/ }).check()
-  await page.getByRole('button', { name: /^Betal / }).click()
-  await expect(page).toHaveURL(/\/kasse\/testbetaling\?/)
-}
-
 test.describe('checkout', () => {
   test('buys a product end to end', async ({ page }) => {
     const cspErrors: string[] = []

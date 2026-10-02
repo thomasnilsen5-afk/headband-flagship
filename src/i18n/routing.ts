@@ -23,6 +23,8 @@ export const routing = defineRouting({
     '/checkout/confirmation': { nb: '/kasse/bekreftelse', en: '/checkout/confirmation' },
     '/checkout/test-payment': { nb: '/kasse/testbetaling', en: '/checkout/test-payment' },
     '/account': { nb: '/konto', en: '/account' },
+    '/account/sign-in': { nb: '/konto/logg-inn', en: '/account/sign-in' },
+    '/account/orders/[id]': { nb: '/konto/ordre/[id]', en: '/account/orders/[id]' },
     '/privacy': { nb: '/personvern', en: '/privacy' },
     '/terms': { nb: '/vilkar', en: '/terms' },
     '/returns': { nb: '/retur-og-angrerett', en: '/returns' },
