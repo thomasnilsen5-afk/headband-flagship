@@ -61,19 +61,28 @@ export function HeroStage({ copy }: { copy: Copy }) {
       inputs.current.pointer.x = (e.clientX / innerWidth) * 2 - 1
       inputs.current.pointer.y = (e.clientY / innerHeight) * 2 - 1
     }
-    const frame = () => {
+    // Writes only on change: re-setting font-variation-settings every frame re-shapes the
+    // headline 60×/s, which on mid-range phones shows up as Total Blocking Time.
+    let lastP = -1
+    let lastReadout = 0
+    const frame = (now: number) => {
       const rect = el.getBoundingClientRect()
       const travel = Math.max(1, rect.height - innerHeight)
       const p = Math.min(1, Math.max(0, -rect.top / travel))
+      const visible = rect.bottom > 0 && rect.top < innerHeight
       inputs.current.progress = p
-      inputs.current.active = rect.bottom > 0 && rect.top < innerHeight
-      el.style.setProperty('--p', p.toFixed(4))
-      if (title.current && !reduce) {
-        // 150 → 62: the headline condenses as the object turns away.
-        title.current.style.fontVariationSettings = `'wdth' ${(150 - p * 88).toFixed(1)}`
+      inputs.current.active = visible
+      if (Math.abs(p - lastP) > 0.0005) {
+        lastP = p
+        el.style.setProperty('--p', p.toFixed(4))
+        if (title.current && !reduce) {
+          // 150 → 62: the headline condenses as the object turns away.
+          title.current.style.fontVariationSettings = `'wdth' ${(150 - p * 88).toFixed(1)}`
+        }
       }
-      if (readout.current) {
-        const t = (performance.now() - start) / 1000
+      if (visible && readout.current && now - lastReadout > 100) {
+        lastReadout = now
+        const t = (now - start) / 1000
         const theta = (35 + inputs.current.pointer.y * 12 + p * 48).toFixed(1).padStart(5, '0')
         const phi = ((t * 4.3 + inputs.current.pointer.x * 28 + p * 109) % 360)
           .toFixed(1)

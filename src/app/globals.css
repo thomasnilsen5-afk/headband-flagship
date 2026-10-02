@@ -56,7 +56,7 @@
   }
   @keyframes orbit {
     to {
-      --film-angle: 360deg;
+      transform: rotate(360deg);
     }
   }
   @keyframes rise {
@@ -67,12 +67,6 @@
       transform: none;
     }
   }
-}
-
-@property --film-angle {
-  syntax: '<angle>';
-  inherits: true;
-  initial-value: 0deg;
 }
 
 /* ==========================================================================
@@ -222,10 +216,17 @@
     --band-tilt: 66deg;
     position: relative;
     aspect-ratio: 1;
-    border-radius: 50%;
     transform: perspective(1400px) rotateZ(var(--band-roll, -8deg)) rotateX(var(--band-tilt));
+  }
+
+  /* The ring itself. Rotating the element (not the gradient angle) keeps the animation on
+     the compositor: zero main-thread work per frame, which matters on mid-range phones. */
+  .band-css::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
     background: conic-gradient(
-      from var(--film-angle),
       var(--band-a, var(--color-ichor)),
       var(--band-b, var(--color-uv)),
       var(--band-c, var(--color-film-gold)),
@@ -243,6 +244,7 @@
       #000 calc(100% - var(--band-thickness) + 1px)
     );
     animation: var(--animate-orbit);
+    will-change: transform;
   }
 
   .band-glow {
