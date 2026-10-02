@@ -3,7 +3,12 @@
     "collect": {
       "startServerCommand": "pnpm start --port 3100",
       "startServerReadyPattern": "Ready",
-      "url": ["http://localhost:3100/", "http://localhost:3100/en"],
+      "url": [
+        "http://localhost:3100/",
+        "http://localhost:3100/en",
+        "http://localhost:3100/produkter",
+        "http://localhost:3100/produkter/nacre"
+      ],
       "numberOfRuns": 3,
       "settings": {}
     },

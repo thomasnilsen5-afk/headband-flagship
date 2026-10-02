@@ -66,7 +66,7 @@ Supabase Storage ── product-media (public) · review-media (owner folders, v
 
 1. **Foundation:** repo, CI, Supabase schema + RLS + SQL commerce functions + seed, design system, i18n, security headers ✅
 2. **Hero + landing:** real-time WebGL band, scroll choreography, screenshot moments ✅
-3. **Catalog + product pages:** 3D viewer, variants, live stock, bundles, drops with countdown + waitlist
+3. **Catalog + product pages:** 3D viewer, variants, live stock, bundles, drops with countdown + waitlist, search ✅
 4. **Cart + checkout + payments:** Stripe (cards, Apple/Google Pay, Klarna), Vipps MobilePay, Bring/Posten shipping, rate limiting, strict CSP
 5. **Accounts + emails + admin:** Supabase Auth, order history, addresses, returns, wishlist, Resend + React Email flows, role-based admin
 6. **Polish:** performance, WCAG 2.2 AA audit, SEO (JSON-LD, sitemap, OG per product), consent, security review
@@ -141,7 +141,22 @@ tests/unit · tests/e2e
 
 ---
 
-## 4. Runbook
+## 4. Storefront (phase 3)
+
+| Route (nb / en)               | Rendering                     | Notes                                                                                                                                                            |
+| ----------------------------- | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/produkter` · `/en/products` | Static, ISR 5 min             | Client-side filters (collection, colour, in stock) and sort; sets priced by the pricing engine                                                                   |
+| `/produkter/[slug]`           | Static per product, ISR 5 min | 3D viewer (drag / arrow keys), colour + size radio groups, live stock via Realtime, back-in-stock list when sold out, Product JSON-LD with one Offer per variant |
+| `/drop/[slug]`                | Static, ISR 1 min             | Countdown, waitlist (server action, rate limited, consent required, honeypot)                                                                                    |
+| `/sok?q=` · `/en/search?q=`   | Dynamic, noindex              | Postgres full-text (nb + en) with trigram typo tolerance                                                                                                         |
+| `/og/products/[slug]`         | Generated image, 1 h          | 1200×630 Open Graph image per product                                                                                                                            |
+
+Waitlist sign-ups are written with the service role (`SUPABASE_SECRET_KEY` or the integration's
+`SUPABASE_SERVICE_ROLE_KEY`) and must be configured for Preview too. Rate limits use Upstash when
+`UPSTASH_REDIS_REST_URL`/`TOKEN` are set; without them a per-instance memory window is used and
+a warning is logged in production.
+
+## 5. Runbook
 
 **Deploys.** Every PR gets a Vercel preview (noindex). `main` deploys to production. Database
 migrations deploy from `main` via `db-deploy.yml` (Supabase CLI), never by hand in production.
@@ -183,7 +198,7 @@ write policy next to the public read policy; the cost is one cached `is_staff()`
 
 ---
 
-## 5. What you must provide
+## 6. What you must provide
 
 | Item                                                                        | Where it goes                                                     |
 | --------------------------------------------------------------------------- | ----------------------------------------------------------------- |

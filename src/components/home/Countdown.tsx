@@ -49,14 +49,14 @@ export function Countdown({
     ['s', p.s],
   ]
   return (
-    <div>
+    <div className="@container">
       <p className="sr-only">
         {p.d} {units.d}, {p.h} {units.h}, {p.m} {units.m}
       </p>
       <ol className="grid grid-cols-4 gap-px overflow-hidden rounded-sm bg-hairline" aria-hidden>
         {cells.map(([k, v]) => (
           <li key={k} className="bg-void px-3 py-6 sm:px-6">
-            <span className="type-data block text-[clamp(2.5rem,7vw,6.5rem)] leading-none font-extralight tracking-[-0.05em] tabular-nums">
+            <span className="type-data block text-[clamp(2rem,12cqi,6.5rem)] leading-none font-extralight tracking-[-0.05em] tabular-nums">
               {remaining === null ? '––' : String(v).padStart(2, '0')}
             </span>
             <span className="type-label mt-3 block">{units[k]}</span>

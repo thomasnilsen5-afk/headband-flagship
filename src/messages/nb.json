@@ -76,7 +76,30 @@
     "from": "Fra",
     "lowStock": "Bare {count} igjen",
     "soldOut": "Utsolgt",
-    "inStock": "På lager"
+    "inStock": "På lager",
+    "color": "Farge",
+    "size": "Størrelse",
+    "sizeGuide": "S/M passer hodeomkrets 52–56 cm, M/L 56–60 cm.",
+    "addToCart": "Legg i kurv",
+    "checkoutSoon": "Kassen åpner snart.",
+    "vat": "Inkl. 25 % mva.",
+    "details": "Detaljer",
+    "materials": "Materialer",
+    "weight": "Vekt",
+    "width": "Bredde",
+    "care": "Vask",
+    "careValue": "Maskinvask 30 °C, ikke tørketrommel",
+    "shipping": "Frakt og retur",
+    "shippingValue": "Rett i postkassen fra 49 kr, fri frakt over 999 kr. 30 dagers retur, 14 dagers angrerett.",
+    "bundleTitle": "Sammen er de billigere",
+    "bundleCta": "Se settet",
+    "viewerHint": "Dra for å rotere",
+    "viewerLabel": "3D-modell av {name}. Bruk piltastene for å rotere.",
+    "live": "Lagerstatus oppdateres live",
+    "backInStock": "Gi meg beskjed når den er tilbake",
+    "dropUpcoming": "Slippes {date}",
+    "dropLimit": "Maks {count} per kunde",
+    "placeholder": "Plassholderprodukt"
   },
   "footer": {
     "tagline": "Tekniske pannebånd. Designet i Norge.",
@@ -91,5 +114,53 @@
   "notFound": {
     "title": "Dette stedet finnes ikke.",
     "back": "Tilbake til start"
+  },
+  "catalog": {
+    "title": "Objekter",
+    "lede": "Seks former, laget for bevegelse, ro og alt imellom.",
+    "filters": "Filtrer",
+    "all": "Alle",
+    "inStock": "Bare på lager",
+    "color": "Farge",
+    "collection": "Kolleksjon",
+    "sort": "Sorter",
+    "sortFeatured": "Utvalgt",
+    "sortPriceAsc": "Pris, lav–høy",
+    "sortPriceDesc": "Pris, høy–lav",
+    "count": "{count, plural, =0 {Ingen objekter} one {# objekt} other {# objekter}}",
+    "empty": "Ingenting passer. Prøv færre filtre.",
+    "clear": "Nullstill",
+    "bundles": "Sett",
+    "bundleSave": "Spar {pct} %"
+  },
+  "drop": {
+    "eyebrow": "Begrenset opplag",
+    "pieces": "Nummererte eksemplarer",
+    "limit": "Maks {count} per kunde",
+    "starts": "Slippes",
+    "waitlistTitle": "Få beskjed før alle andre",
+    "live": "Ute nå",
+    "shopNow": "Se objektet",
+    "ended": "Dette droppet er over."
+  },
+  "waitlist": {
+    "email": "E-post",
+    "emailPlaceholder": "navn@domene.no",
+    "submit": "Meld meg på",
+    "submitting": "Sender …",
+    "consent": "Jeg vil få én e-post om dette, og godtar at e-posten lagres til da. Ingen nyhetsbrev.",
+    "ok": "Du står på listen. Vi sender én e-post.",
+    "invalid": "Sjekk e-postadressen.",
+    "consentMissing": "Du må krysse av for samtykke.",
+    "limited": "For mange forsøk. Prøv igjen om litt.",
+    "error": "Noe gikk galt. Prøv igjen."
+  },
+  "search": {
+    "title": "Søk",
+    "label": "Søk etter objekter",
+    "placeholder": "Prøv «trening», «merino» eller «krom»",
+    "submit": "Søk",
+    "results": "{count, plural, =0 {Ingen treff for «{q}»} one {# treff for «{q}»} other {# treff for «{q}»}}",
+    "hint": "Søket forstår både norsk og engelsk, og tåler skrivefeil."
   }
 }

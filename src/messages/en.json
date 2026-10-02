@@ -76,7 +76,30 @@
     "from": "From",
     "lowStock": "Only {count} left",
     "soldOut": "Sold out",
-    "inStock": "In stock"
+    "inStock": "In stock",
+    "color": "Colour",
+    "size": "Size",
+    "sizeGuide": "S/M fits head circumference 52–56 cm, M/L 56–60 cm.",
+    "addToCart": "Add to cart",
+    "checkoutSoon": "Checkout opens soon.",
+    "vat": "Incl. 25% Norwegian VAT.",
+    "details": "Details",
+    "materials": "Materials",
+    "weight": "Weight",
+    "width": "Width",
+    "care": "Care",
+    "careValue": "Machine wash 30 °C, do not tumble dry",
+    "shipping": "Shipping and returns",
+    "shippingValue": "Mailbox delivery in Norway from NOK 49, free over NOK 999. International shipping. 30-day returns.",
+    "bundleTitle": "Better together",
+    "bundleCta": "See the set",
+    "viewerHint": "Drag to rotate",
+    "viewerLabel": "3D model of {name}. Use the arrow keys to rotate.",
+    "live": "Stock updates live",
+    "backInStock": "Tell me when it is back",
+    "dropUpcoming": "Releases {date}",
+    "dropLimit": "Max {count} per customer",
+    "placeholder": "Placeholder product"
   },
   "footer": {
     "tagline": "Technical headbands. Designed in Norway.",
@@ -91,5 +114,53 @@
   "notFound": {
     "title": "This place does not exist.",
     "back": "Back to start"
+  },
+  "catalog": {
+    "title": "Objects",
+    "lede": "Six forms, made for motion, stillness and everything between.",
+    "filters": "Filter",
+    "all": "All",
+    "inStock": "In stock only",
+    "color": "Colour",
+    "collection": "Collection",
+    "sort": "Sort",
+    "sortFeatured": "Featured",
+    "sortPriceAsc": "Price, low–high",
+    "sortPriceDesc": "Price, high–low",
+    "count": "{count, plural, =0 {No objects} one {# object} other {# objects}}",
+    "empty": "Nothing fits. Try fewer filters.",
+    "clear": "Clear",
+    "bundles": "Sets",
+    "bundleSave": "Save {pct}%"
+  },
+  "drop": {
+    "eyebrow": "Limited edition",
+    "pieces": "Numbered pieces",
+    "limit": "Max {count} per customer",
+    "starts": "Releases",
+    "waitlistTitle": "Hear about it before anyone else",
+    "live": "Out now",
+    "shopNow": "See the object",
+    "ended": "This drop has ended."
+  },
+  "waitlist": {
+    "email": "Email",
+    "emailPlaceholder": "name@domain.com",
+    "submit": "Notify me",
+    "submitting": "Sending …",
+    "consent": "Send me one email about this, and keep my address until then. No newsletter.",
+    "ok": "You are on the list. We will send one email.",
+    "invalid": "Check the email address.",
+    "consentMissing": "Please tick the consent box.",
+    "limited": "Too many attempts. Try again shortly.",
+    "error": "Something went wrong. Try again."
+  },
+  "search": {
+    "title": "Search",
+    "label": "Search the objects",
+    "placeholder": "Try “training”, “merino” or “chrome”",
+    "submit": "Search",
+    "results": "{count, plural, =0 {No results for “{q}”} one {# result for “{q}”} other {# results for “{q}”}}",
+    "hint": "Search understands Norwegian and English, and forgives typos."
   }
 }

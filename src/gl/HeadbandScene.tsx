@@ -37,9 +37,10 @@ function Band({ inputs, form, color = '#c9ccd4', onReady, mode = 'hero' }: Props
   // below the copy. A slight crop at the edges is intentional: monumental scale.
   const portrait = aspect < 1
   useEffect(() => {
-    camera.position.z = Math.max(4.6, 3.6 / aspect)
+    // The product viewer frames the whole object with breathing room; the hero crops for scale.
+    camera.position.z = Math.max(mode === 'viewer' ? 5.6 : 4.6, 3.6 / aspect)
     camera.updateProjectionMatrix()
-  }, [camera, aspect])
+  }, [camera, aspect, mode])
 
   const material = useMemo(
     () =>
@@ -56,6 +57,7 @@ function Band({ inputs, form, color = '#c9ccd4', onReady, mode = 'hero' }: Props
           uFilm: { value: finish.film },
           uRough: { value: finish.rough },
           uKnit: { value: finish.knit },
+          uTint: { value: finish.tint },
           uAccentA: { value: new Color('#3ee6c1') },
           uAccentB: { value: new Color('#8a5cff') },
         },
@@ -94,6 +96,7 @@ function Band({ inputs, form, color = '#c9ccd4', onReady, mode = 'hero' }: Props
     u.uFilm!.value = MathUtils.lerp(u.uFilm!.value, target.current.film, k)
     u.uRough!.value = MathUtils.lerp(u.uRough!.value, target.current.rough, k)
     u.uKnit!.value = MathUtils.lerp(u.uKnit!.value, target.current.knit, k)
+    u.uTint!.value = MathUtils.lerp(u.uTint!.value, target.current.tint, k)
     ;(u.uBase!.value as Color).lerp(target.current.color, k)
 
     // Orientation: slow drift + attention toward the pointer + device tilt + scroll.

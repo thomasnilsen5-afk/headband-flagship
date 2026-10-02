@@ -25,4 +25,5 @@ jobs:
         run: |
           pnpm exec lhci autorun --config=lighthouserc.preview.json \
             --collect.url="$URL/" --collect.url="$URL/en" \
+            --collect.url="$URL/produkter" --collect.url="$URL/produkter/nacre" \
             --collect.settings.extraHeaders="{\"x-vercel-protection-bypass\":\"$BYPASS\"}"

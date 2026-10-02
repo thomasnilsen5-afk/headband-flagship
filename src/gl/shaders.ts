@@ -90,6 +90,7 @@ uniform float uChrome;
 uniform float uFilm;
 uniform float uRough;
 uniform float uKnit;
+uniform float uTint;
 uniform vec3 uAccentA;
 uniform vec3 uAccentB;
 
@@ -147,6 +148,7 @@ void main() {
   vec3 film = thinFilm(NdV, thickness);
 
   vec3 metal = env * mix(vec3(0.96), film * 1.55, uFilm);
+  metal *= mix(vec3(1.0), uBase * 1.7 + 0.08, uTint);
   float lambert = max(dot(N, normalize(vec3(0.3, 1.0, 0.45))), 0.0);
   vec3 fabric = uBase * (0.12 + 0.88 * lambert) * 0.55 + env * mix(0.03, 0.9, fresnel);
   vec3 col = mix(fabric, metal, uChrome);
