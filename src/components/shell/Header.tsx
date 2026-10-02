@@ -19,7 +19,7 @@ export async function Header() {
     <header className="fixed inset-x-0 top-0 z-50 mix-blend-difference">
       <div className="shell flex h-[var(--header-h)] items-center justify-between gap-6">
         <Link href="/" aria-label={brand.name} className="relative z-10 -m-2 p-2">
-          <Wordmark className="text-bone h-4 w-auto" />
+          <Wordmark className="h-4 w-auto text-bone" />
         </Link>
 
         <nav aria-label="Hoved" className="hidden md:block">

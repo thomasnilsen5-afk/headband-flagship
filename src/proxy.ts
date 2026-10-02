@@ -2,6 +2,7 @@ import { createServerClient } from '@supabase/ssr'
 import createIntlMiddleware from 'next-intl/middleware'
 import { type NextRequest } from 'next/server'
 import { routing } from './i18n/routing'
+import { normalizeSiteUrl } from './lib/url'
 
 const intl = createIntlMiddleware(routing)
 
@@ -13,8 +14,10 @@ export default async function proxy(request: NextRequest) {
 
   if (AUTH_AREAS.test(request.nextUrl.pathname)) {
     const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+      // Read directly (validated at build by src/lib/env.ts) to keep the proxy bundle tiny.
+      normalizeSiteUrl(process.env.NEXT_PUBLIC_SUPABASE_URL)!,
+      (process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)!,
       {
         cookies: {
           getAll: () => request.cookies.getAll(),

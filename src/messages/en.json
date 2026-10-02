@@ -1,5 +1,8 @@
 {
-  "brand": { "name": "HYAL", "descriptor": "Technical headbands" },
+  "brand": {
+    "name": "HYAL",
+    "descriptor": "Technical headbands"
+  },
   "meta": {
     "title": "HYAL — Technical headbands, made elsewhere",
     "description": "Headbands for training, sport and the everyday, built with a precision that does not quite belong here. Free shipping over NOK 999. 30-day returns."
@@ -32,7 +35,11 @@
       "label": "Specimen",
       "title": "What you don't notice is what took us longest.",
       "items": [
-        { "value": "18", "unit": "g", "label": "Weight. Less than a letter." },
+        {
+          "value": "18",
+          "unit": "g",
+          "label": "Weight. Less than a letter."
+        },
         {
           "value": "0.4",
           "unit": "mm",
@@ -46,14 +53,24 @@
       ],
       "macro": "×400 — knit structure, ISOBAR"
     },
-    "objects": { "label": "The objects", "title": "Six forms. One idea.", "all": "All objects" },
+    "objects": {
+      "label": "The objects",
+      "title": "Six forms. One idea.",
+      "all": "All objects"
+    },
     "drop": {
       "label": "Next drop",
       "waitlist": "Notify me",
       "live": "Out now",
-      "units": { "d": "days", "h": "hrs", "m": "min", "s": "sec" }
+      "units": {
+        "d": "days",
+        "h": "hrs",
+        "m": "min",
+        "s": "sec"
+      }
     },
-    "manifesto": "Not from here."
+    "manifesto": "Not from here.",
+    "titleLines": ["Made", "elsewhere."]
   },
   "product": {
     "from": "From",
@@ -71,5 +88,8 @@
     "cookies": "Cookies",
     "org": "Org. no."
   },
-  "notFound": { "title": "This place does not exist.", "back": "Back to start" }
+  "notFound": {
+    "title": "This place does not exist.",
+    "back": "Back to start"
+  }
 }

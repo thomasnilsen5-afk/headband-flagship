@@ -14,8 +14,9 @@ permissions:
 
 env:
   NEXT_PUBLIC_SITE_URL: http://localhost:3100
-  NEXT_PUBLIC_SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL }}
-  NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ vars.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+  # Public values (RLS protects the data); repository variables override them.
+  NEXT_PUBLIC_SUPABASE_URL: ${{ vars.NEXT_PUBLIC_SUPABASE_URL || 'https://zplgddrrdxtxhgvzlldw.supabase.co' }}
+  NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ vars.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_6SNaJXCmFx94ug-JrnMZlg_Vbdlj3Rd' }}
   NEXT_TELEMETRY_DISABLED: 1
 
 jobs:

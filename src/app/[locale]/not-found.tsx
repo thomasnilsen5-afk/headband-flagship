@@ -6,10 +6,10 @@ export default async function NotFound() {
   return (
     <section className="shell grid min-h-[80dvh] content-center gap-10 pt-[var(--header-h)]">
       <p className="type-label">404</p>
-      <h1 className="type-display text-display max-w-[14ch]">{t('title')}</h1>
+      <h1 className="type-display max-w-[14ch] text-display">{t('title')}</h1>
       <Link
         href="/"
-        className="type-label text-bone! decoration-hairline underline underline-offset-8"
+        className="type-label text-bone! underline decoration-hairline underline-offset-8"
       >
         {t('back')}
       </Link>

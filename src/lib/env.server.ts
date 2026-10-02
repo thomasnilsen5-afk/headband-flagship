@@ -29,7 +29,11 @@ export type ServerEnv = z.infer<typeof serverSchema>
 
 let cached: ServerEnv | undefined
 export function serverEnv(): ServerEnv {
-  cached ??= serverSchema.parse(process.env)
+  cached ??= serverSchema.parse({
+    ...process.env,
+    // The Supabase ↔ Vercel integration sets the legacy name; both work.
+    SUPABASE_SECRET_KEY: process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY,
+  })
   return cached
 }
 

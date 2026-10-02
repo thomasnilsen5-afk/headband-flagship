@@ -2,8 +2,12 @@ import { withSentryConfig } from '@sentry/nextjs/config'
 import type { NextConfig } from 'next'
 import createNextIntlPlugin from 'next-intl/plugin'
 import { securityHeaders } from './src/lib/security/headers'
+import { normalizeSiteUrl } from './src/lib/url'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? 'https://example.supabase.co'
+// Normalised like src/lib/env.ts: a bare domain or a blank value must never crash the build
+// here, before env validation can explain what is wrong.
+const supabaseUrl =
+  normalizeSiteUrl(process.env.NEXT_PUBLIC_SUPABASE_URL) ?? 'https://example.supabase.co'
 const dev = process.env.NODE_ENV !== 'production'
 
 const nextConfig: NextConfig = {
@@ -17,6 +21,8 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     optimizePackageImports: ['three', '@react-three/fiber'],
+    // ~11 KB of CSS: inlining removes two render-blocking requests from the LCP path.
+    inlineCss: true,
   },
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders({ supabaseUrl, dev }) }]

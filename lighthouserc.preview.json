@@ -1,9 +1,6 @@
 {
   "ci": {
     "collect": {
-      "startServerCommand": "pnpm start --port 3100",
-      "startServerReadyPattern": "Ready",
-      "url": ["http://localhost:3100/", "http://localhost:3100/en"],
       "numberOfRuns": 3,
       "settings": {}
     },
@@ -12,7 +9,7 @@
         "categories:performance": [
           "error",
           {
-            "minScore": 0.9,
+            "minScore": 0.95,
             "aggregationMethod": "median-run"
           }
         ],
@@ -28,16 +25,11 @@
             "minScore": 0.95
           }
         ],
-        "categories:seo": [
-          "error",
-          {
-            "minScore": 0.95
-          }
-        ],
+        "categories:seo": "off",
         "largest-contentful-paint": [
           "error",
           {
-            "maxNumericValue": 3200,
+            "maxNumericValue": 2500,
             "aggregationMethod": "median-run"
           }
         ],

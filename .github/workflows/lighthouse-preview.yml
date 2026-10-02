@@ -1,0 +1,28 @@
+name: Lighthouse (Vercel preview)
+
+# Runs against the real preview deployment (HTTP/2, Brotli, edge cache) and enforces the
+# 95+ mobile budget. Preview URLs are protected, so the bypass secret is sent as a header.
+on:
+  deployment_status:
+
+jobs:
+  lighthouse:
+    # Vercel names environments "Preview" or "Preview – <project>".
+    if: github.event.deployment_status.state == 'success' && startsWith(github.event.deployment_status.environment, 'Preview')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - name: Lighthouse CI (mobile)
+        env:
+          URL: ${{ github.event.deployment_status.environment_url }}
+          BYPASS: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+        run: |
+          pnpm exec lhci autorun --config=lighthouserc.preview.json \
+            --collect.url="$URL/" --collect.url="$URL/en" \
+            --collect.settings.extraHeaders="{\"x-vercel-protection-bypass\":\"$BYPASS\"}"
