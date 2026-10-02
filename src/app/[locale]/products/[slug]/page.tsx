@@ -53,6 +53,7 @@ export default async function ProductPage({ params }: Props) {
   const tw = await getTranslations('waitlist')
   const tc = await getTranslations('catalog')
   const td = await getTranslations('drop')
+  const tcart = await getTranslations('cart')
   const phase = product.drop
     ? dropPhase(
         new Date(product.drop.startsAt),
@@ -116,8 +117,6 @@ export default async function ProductPage({ params }: Props) {
           color: t('color'),
           size: t('size'),
           sizeGuide: t('sizeGuide'),
-          addToCart: t('addToCart'),
-          checkoutSoon: t('checkoutSoon'),
           vat: t('vat'),
           inStock: t('inStock'),
           soldOut: t('soldOut'),
@@ -129,6 +128,16 @@ export default async function ProductPage({ params }: Props) {
           dropNote: product.drop
             ? t('dropUpcoming', { date: dateFmt.format(new Date(product.drop.startsAt)) })
             : undefined,
+        }}
+        cartCopy={{
+          add: tcart('add'),
+          adding: tcart('adding'),
+          added: tcart('added'),
+          goToCart: tcart('goToCart'),
+          limit: tcart('limit'),
+          unavailable: tcart('unavailable'),
+          error: tcart('error'),
+          limited: tcart('limited'),
         }}
         waitlistCopy={{
           email: tw('email'),

@@ -30,14 +30,14 @@ export type CodeDiscount = {
   minSubtotalOre: Ore
 }
 
-export type PricingInput = {
-  lines: PricingLine[]
+export type PricingInput<L extends PricingLine = PricingLine> = {
+  lines: L[]
   vatMode: VatMode
   discount?: CodeDiscount | null
   shippingRate?: ShippingRate | null
 }
 
-export type PricedLine = PricingLine & {
+export type PricedLine<L extends PricingLine = PricingLine> = L & {
   unitPriceOre: Ore
   appliedVatRateBp: number
   subtotalOre: Ore
@@ -48,8 +48,8 @@ export type PricedLine = PricingLine & {
   taxOre: Ore
 }
 
-export type PricingResult = {
-  lines: PricedLine[]
+export type PricingResult<L extends PricingLine = PricingLine> = {
+  lines: PricedLine<L>[]
   subtotalOre: Ore
   bundleDiscountOre: Ore
   codeDiscountOre: Ore
@@ -85,7 +85,8 @@ export function allocate(amount: Ore, weights: number[]): Ore[] {
   return parts
 }
 
-export function priceCart(input: PricingInput): PricingResult {
+/** Generic over the line type: extra fields on input lines (names, ids) come back untouched. */
+export function priceCart<L extends PricingLine>(input: PricingInput<L>): PricingResult<L> {
   const { vatMode } = input
 
   const base = input.lines.map((line) => {
@@ -131,7 +132,7 @@ export function priceCart(input: PricingInput): PricingResult {
     base.map((l) => l.subtotalOre - l.bundleDiscountOre),
   )
 
-  const lines: PricedLine[] = base.map((l, i) => {
+  const lines: PricedLine<L>[] = base.map((l, i) => {
     const code = codeShares[i] ?? 0
     const discountOre = l.bundleDiscountOre + code
     const lineTotalOre = l.subtotalOre - discountOre
