@@ -245,6 +245,16 @@ otp_expiry = 3600
 # sender_name = "Admin"
 
 # Uncomment to customize email template
+# Passwordless sign-in: the code is the primary path (works across devices and in-app
+# browsers); the link is a fallback. Mirror these in the hosted project's Auth templates.
+[auth.email.template.magic_link]
+subject = "Din kode / Your code: {{ .Token }}"
+content_path = "./supabase/templates/sign-in.html"
+
+[auth.email.template.confirmation]
+subject = "Din kode / Your code: {{ .Token }}"
+content_path = "./supabase/templates/sign-in.html"
+
 # [auth.email.template.invite]
 # subject = "You have been invited"
 # content_path = "./supabase/templates/invite.html"

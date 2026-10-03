@@ -65,7 +65,7 @@ jobs:
       # A throwaway local Supabase (migrations + seed) so the purchase flow runs against a real
       # database with the service key, without touching the hosted project.
       # The CLI comes from devDependencies (version pinned by the lockfile, no GitHub API call).
-      - run: pnpm exec supabase start -x studio,imgproxy,mailpit,edge-runtime,logflare,vector,supavisor,postgres-meta
+      - run: pnpm exec supabase start -x studio,imgproxy,edge-runtime,logflare,vector,supavisor,postgres-meta
       - name: Point the build at the local stack
         run: |
           eval "$(pnpm exec supabase status -o env)"

@@ -44,6 +44,6 @@ export default async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // Skip API routes, Next internals, Vercel internals and files with an extension.
-  matcher: ['/((?!api|og|_next|_vercel|monitoring|.*\\..*).*)'],
+  // Skip API and auth callback routes, Next internals, Vercel internals and files with an extension.
+  matcher: ['/((?!api|auth|og|_next|_vercel|monitoring|.*\\..*).*)'],
 }

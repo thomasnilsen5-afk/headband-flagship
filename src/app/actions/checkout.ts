@@ -21,6 +21,7 @@ import { createVippsPayment } from '@/lib/payments/vipps'
 import { checkoutSchema } from '@/lib/schemas/checkout'
 import { clientIp, rateLimit } from '@/lib/security/rate-limit'
 import { signOrder } from '@/lib/security/tokens'
+import { getUser } from '@/lib/auth'
 import { createAdminClient } from '@/lib/supabase/admin'
 
 export type CheckoutState = {
@@ -117,6 +118,7 @@ export async function startCheckout(_prev: CheckoutState, form: FormData): Promi
   const { data: order, error } = await db.rpc('place_order', {
     p_reservation_minutes: reservationMinutes,
     p_order: {
+      user_id: (await getUser())?.id ?? '',
       email: v.email,
       phone: v.phone ?? '',
       locale,
