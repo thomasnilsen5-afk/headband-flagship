@@ -8,6 +8,7 @@ import type { BandForm } from '@/gl/finishes'
 import { getPathname, Link } from '@/i18n/navigation'
 import { routing, type Locale } from '@/i18n/routing'
 import { getProduct, getProductSlugs } from '@/lib/catalog'
+import { WishlistButton } from '@/components/account/WishlistButton'
 import { dropPhase } from '@/lib/commerce'
 import { siteUrl } from '@/lib/env'
 import { jsonLdScript, productJsonLd } from '@/lib/seo/jsonld'
@@ -129,6 +130,9 @@ export default async function ProductPage({ params }: Props) {
             ? t('dropUpcoming', { date: dateFmt.format(new Date(product.drop.startsAt)) })
             : undefined,
         }}
+        wishlist={
+          <WishlistButton productId={product.id} copy={{ save: t('save'), saved: t('saved') }} />
+        }
         cartCopy={{
           add: tcart('add'),
           adding: tcart('adding'),

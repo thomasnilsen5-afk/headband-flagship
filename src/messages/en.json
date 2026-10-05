@@ -99,7 +99,10 @@
     "backInStock": "Tell me when it is back",
     "dropUpcoming": "Releases {date}",
     "dropLimit": "Max {count} per customer",
-    "placeholder": "Placeholder product"
+    "placeholder": "Placeholder product",
+    "save": "Save",
+    "saved": "Saved",
+    "saveSignIn": "Sign in to save"
   },
   "footer": {
     "tagline": "Technical headbands. Designed in Norway.",
@@ -298,6 +301,50 @@
     "track": "Track parcel",
     "items": "Items",
     "total": "Total",
-    "shipTo": "Shipping to"
+    "shipTo": "Shipping to",
+    "nav": {
+      "orders": "Orders",
+      "addresses": "Addresses",
+      "wishlist": "Wishlist"
+    },
+    "addresses": "Addresses",
+    "noAddresses": "No saved addresses.",
+    "addAddress": "Add address",
+    "label": "Address name (optional)",
+    "fullName": "Full name",
+    "line1": "Address",
+    "line2": "Apartment, c/o (optional)",
+    "postalCode": "Postcode",
+    "city": "City",
+    "country": "Country",
+    "phone": "Mobile (optional)",
+    "isDefault": "Use as default at checkout",
+    "save": "Save address",
+    "saved": "Address saved.",
+    "delete": "Delete",
+    "makeDefault": "Make default",
+    "default": "Default",
+    "fieldsInvalid": "Check the highlighted fields.",
+    "wishlist": "Wishlist",
+    "emptyWishlist": "Nothing saved yet. Press “Save” on an object to collect it here.",
+    "remove": "Remove",
+    "returns": "Return",
+    "returnBody": "Choose what you want to send back. You have a 14-day right of withdrawal and 30 days of open purchase from delivery.",
+    "returnQty": "Quantity to return",
+    "returnReason": "Reason (optional)",
+    "returnSubmit": "Request return",
+    "returnOk": "Your return is registered. We will email instructions.",
+    "returnNone": "Choose at least one item.",
+    "returnWindow": "The return window for this order has closed.",
+    "returnNotReturnable": "This order cannot be returned.",
+    "returnQtyExceeded": "You have already asked to return these items.",
+    "returnStatus": {
+      "requested": "Requested",
+      "approved": "Approved",
+      "received": "Received",
+      "refunded": "Refunded",
+      "rejected": "Rejected"
+    },
+    "returnRequested": "Return {date}"
   }
 }

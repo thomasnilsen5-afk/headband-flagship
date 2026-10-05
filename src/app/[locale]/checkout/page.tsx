@@ -7,7 +7,9 @@ import { bundleRules, loadCart, toPricingLines } from '@/lib/cart/server'
 import { tr } from '@/lib/catalog'
 import type { CodeDiscount } from '@/lib/commerce'
 import { availablePaymentMethods } from '@/lib/env.server'
+import { getUser } from '@/lib/auth'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { createSupabaseServerClient } from '@/lib/supabase/server'
 
 export const metadata: Metadata = { robots: { index: false, follow: false } }
 
@@ -55,7 +57,7 @@ export default async function CheckoutPage({ params, searchParams }: Props) {
         lines={lines}
         discount={discount}
         methods={availablePaymentMethods()}
-        defaults={{ email: cart!.email ?? '' }}
+        defaults={await checkoutDefaults(cart!.email)}
         rates={(rateRows ?? []).map((r) => ({
           code: r.code,
           zone: r.zone as 'NO' | 'NORDIC' | 'EU' | 'WORLD',
@@ -113,4 +115,25 @@ export default async function CheckoutPage({ params, searchParams }: Props) {
       />
     </div>
   )
+}
+
+async function checkoutDefaults(cartEmail: string | null) {
+  const user = await getUser()
+  if (!user) return { email: cartEmail ?? '' }
+  const supabase = await createSupabaseServerClient()
+  const { data: a } = await supabase
+    .from('addresses')
+    .select('full_name, line1, line2, postal_code, city, country, phone')
+    .eq('is_default', true)
+    .maybeSingle()
+  return {
+    email: cartEmail ?? user.email ?? '',
+    fullName: a?.full_name,
+    line1: a?.line1,
+    line2: a?.line2 ?? undefined,
+    postalCode: a?.postal_code,
+    city: a?.city,
+    country: a?.country,
+    phone: a?.phone ?? undefined,
+  }
 }

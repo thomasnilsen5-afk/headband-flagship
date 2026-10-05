@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { getFormatter, getTranslations, setRequestLocale } from 'next-intl/server'
 import { signOut } from '@/app/actions/auth'
+import { AccountNav } from '@/components/account/AccountNav'
 import { getPathname, Link } from '@/i18n/navigation'
 import type { Locale } from '@/i18n/routing'
 import { getUser } from '@/lib/auth'
@@ -43,6 +44,7 @@ export default async function AccountPage({ params }: Props) {
           </button>
         </form>
       </header>
+      <AccountNav current="/account" />
 
       <div>
         <h2 className="type-label mb-4">{t('orders')}</h2>

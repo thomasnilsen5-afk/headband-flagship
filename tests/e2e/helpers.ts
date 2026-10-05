@@ -1,7 +1,18 @@
 import { expect, type APIRequestContext, type Page } from '@playwright/test'
 
+/**
+ * Rate limits are per client IP, and every test comes from 127.0.0.1, so a full run would
+ * trip them. Each purchase flow gets its own address instead (Vercel overwrites this header
+ * in production, so it is not a way around the limits there).
+ */
+export async function ownClientIp(page: Page) {
+  const octet = () => Math.floor(Math.random() * 250) + 1
+  await page.setExtraHTTPHeaders({ 'x-forwarded-for': `10.${octet()}.${octet()}.${octet()}` })
+}
+
 /** Adds NACRE to the cart and fills checkout up to the simulated payment page. */
 export async function checkoutToTestPayment(page: Page, email = 'e2e@example.com') {
+  await ownClientIp(page)
   await page.goto('/produkter/nacre')
   await page.getByRole('button', { name: 'Legg i kurv' }).click()
   await expect(page.getByRole('link', { name: /Handlekurv, 1 varer/ })).toBeVisible()
@@ -43,4 +54,15 @@ export async function latestOtp(request: APIRequestContext, email: string): Prom
     )
     .toMatch(/^\d{6}$/)
   return code
+}
+
+/** Signs in through the real one-time-code flow; returns on the account page. */
+export async function signIn(page: Page, request: APIRequestContext, email: string) {
+  await page.goto('/konto/logg-inn')
+  await page.getByRole('textbox', { name: 'E-post' }).fill(email)
+  await page.getByRole('button', { name: 'Send kode' }).click()
+  await expect(page.getByText(`Vi har sendt en kode til ${email}`)).toBeVisible()
+  await page.getByRole('textbox', { name: 'Engangskode' }).fill(await latestOtp(request, email))
+  await page.getByRole('button', { name: 'Logg inn' }).click()
+  await expect(page).toHaveURL(/\/konto$/)
 }
