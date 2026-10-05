@@ -18,6 +18,8 @@ const serverSchema = z.object({
   VIPPS_WEBHOOK_SECRET: z.string().optional(),
   RESEND_API_KEY: z.string().startsWith('re_').optional(),
   EMAIL_FROM: z.string().optional(),
+  // Local/CI only: without Resend, emails go to this Mailpit instance so tests can read them.
+  MAILPIT_URL: z.url().optional(),
   UPSTASH_REDIS_REST_URL: z.url().optional(),
   UPSTASH_REDIS_REST_TOKEN: z.string().optional(),
   BRING_API_UID: z.string().optional(),

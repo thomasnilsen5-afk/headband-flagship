@@ -2,7 +2,9 @@
 
 import { revalidatePath } from 'next/cache'
 import { headers } from 'next/headers'
+import { after } from 'next/server'
 import { z } from 'zod'
+import { sendReturnUpdate } from '@/lib/email/orders'
 import { SHIP_COUNTRIES } from '@/lib/schemas/checkout'
 import { clientIp, rateLimit } from '@/lib/security/rate-limit'
 import { createSupabaseServerClient } from '@/lib/supabase/server'
@@ -148,12 +150,13 @@ export async function requestReturn(_: FormStatus, form: FormData): Promise<Form
   if (!orderId.success || items.length === 0) return { status: 'invalid' }
   const reason = z.string().max(2000).catch('').parse(form.get('reason'))
 
-  const { error } = await a.supabase.rpc('request_return', {
+  const { data: created, error } = await a.supabase.rpc('request_return', {
     p_order_id: orderId.data,
     p_items: items,
     p_reason: reason,
   })
   if (error) return { status: RETURN_ERRORS[error.message] ?? 'error' }
+  after(() => sendReturnUpdate(created.id))
   revalidatePath('/[locale]/account/orders/[id]', 'page')
   return { status: 'ok' }
 }
