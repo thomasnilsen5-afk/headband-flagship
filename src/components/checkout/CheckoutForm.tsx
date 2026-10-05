@@ -21,6 +21,18 @@ type Method = 'vipps' | 'stripe' | 'test'
 
 export type CheckoutCopy = Record<string, string>
 
+/** Prefill: the cart's email, or a signed-in customer's default address. */
+export type CheckoutDefaults = {
+  email: string
+  phone?: string
+  fullName?: string
+  line1?: string
+  line2?: string
+  postalCode?: string
+  city?: string
+  country?: string
+}
+
 const field =
   'w-full rounded-sm border border-hairline-strong bg-transparent px-4 py-3.5 text-bone placeholder:text-ash-dim focus:border-ichor focus:outline-none aria-[invalid=true]:border-danger'
 
@@ -45,7 +57,7 @@ export function CheckoutForm({
   rates: Rate[]
   discount: CodeDiscount | null
   methods: Method[]
-  defaults: { email: string }
+  defaults: CheckoutDefaults
   copy: CheckoutCopy
   errors: Record<string, string>
   totalsCopy: TotalsCopy
@@ -53,8 +65,8 @@ export function CheckoutForm({
   const [state, action, pending] = useActionState<CheckoutState, FormData>(startCheckout, {
     status: 'idle',
   })
-  const [country, setCountry] = useState('NO')
-  const [postal, setPostal] = useState('')
+  const [country, setCountry] = useState(defaults.country ?? 'NO')
+  const [postal, setPostal] = useState(defaults.postalCode ?? '')
   const zoneRates = useMemo(() => availableRates(rates, country) as Rate[], [rates, country])
   const [rateCode, setRateCode] = useState(zoneRates[0]?.code ?? '')
   const rate = zoneRates.find((r) => r.code === rateCode) ?? zoneRates[0] ?? null
@@ -94,6 +106,7 @@ export function CheckoutForm({
             <span className="mb-1.5 block text-sm text-ash">{copy.phone}</span>
             <input
               name="phone"
+              defaultValue={defaults.phone}
               type="tel"
               autoComplete="tel"
               inputMode="tel"
@@ -128,6 +141,7 @@ export function CheckoutForm({
             <span className="mb-1.5 block text-sm text-ash">{copy.fullName}</span>
             <input
               name="fullName"
+              defaultValue={defaults.fullName}
               required
               autoComplete="name"
               aria-invalid={invalid('fullName')}
@@ -138,6 +152,7 @@ export function CheckoutForm({
             <span className="mb-1.5 block text-sm text-ash">{copy.line1}</span>
             <input
               name="line1"
+              defaultValue={defaults.line1}
               required
               autoComplete="address-line1"
               aria-invalid={invalid('line1')}
@@ -146,7 +161,12 @@ export function CheckoutForm({
           </label>
           <label className="block">
             <span className="mb-1.5 block text-sm text-ash">{copy.line2}</span>
-            <input name="line2" autoComplete="address-line2" className={field} />
+            <input
+              name="line2"
+              autoComplete="address-line2"
+              defaultValue={defaults.line2}
+              className={field}
+            />
           </label>
           <div className="grid grid-cols-[10rem_1fr] gap-4">
             <label className="block">
@@ -172,6 +192,7 @@ export function CheckoutForm({
               <span className="mb-1.5 block text-sm text-ash">{copy.city}</span>
               <input
                 name="city"
+                defaultValue={defaults.city}
                 required
                 autoComplete="address-level2"
                 aria-invalid={invalid('city')}

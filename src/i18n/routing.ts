@@ -25,6 +25,8 @@ export const routing = defineRouting({
     '/account': { nb: '/konto', en: '/account' },
     '/account/sign-in': { nb: '/konto/logg-inn', en: '/account/sign-in' },
     '/account/orders/[id]': { nb: '/konto/ordre/[id]', en: '/account/orders/[id]' },
+    '/account/addresses': { nb: '/konto/adresser', en: '/account/addresses' },
+    '/account/wishlist': { nb: '/konto/onskeliste', en: '/account/wishlist' },
     '/privacy': { nb: '/personvern', en: '/privacy' },
     '/terms': { nb: '/vilkar', en: '/terms' },
     '/returns': { nb: '/retur-og-angrerett', en: '/returns' },

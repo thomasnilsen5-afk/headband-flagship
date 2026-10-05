@@ -38,6 +38,7 @@ export function ProductExperience({
   copy,
   waitlistCopy,
   cartCopy,
+  wishlist,
   purchasable,
 }: {
   name: string
@@ -49,6 +50,8 @@ export function ProductExperience({
   copy: ProductCopy
   waitlistCopy: WaitlistCopy
   cartCopy: AddToCartCopy
+  /** Rendered under the purchase controls (server-provided so this stays account-agnostic). */
+  wishlist?: React.ReactNode
   /** False before a drop goes live. */
   purchasable: boolean
 }) {
@@ -176,6 +179,8 @@ export function ProductExperience({
             )}
           </div>
         )}
+
+        {wishlist}
 
         <p className="type-label flex items-center gap-2 text-ash-dim!">
           <span aria-hidden className="h-1.5 w-1.5 animate-pulse rounded-full bg-ichor" />

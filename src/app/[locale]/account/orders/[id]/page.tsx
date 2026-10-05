@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
 import { getFormatter, getTranslations, setRequestLocale } from 'next-intl/server'
+import { ReturnForm } from '@/components/account/ReturnForm'
 import { getPathname, Link } from '@/i18n/navigation'
 import type { Locale } from '@/i18n/routing'
 import { getUser } from '@/lib/auth'
@@ -10,6 +11,14 @@ import { createSupabaseServerClient } from '@/lib/supabase/server'
 export const metadata: Metadata = { robots: { index: false, follow: false } }
 
 type Props = { params: Promise<{ locale: string; id: string }> }
+const RETURNABLE = new Set(['paid', 'fulfilled', 'shipped', 'delivered', 'partially_refunded'])
+const RETURN_DAYS = 30
+
+/** Before delivery the window has not started; afterwards it runs RETURN_DAYS. */
+function returnWindowOpen(deliveredAt: string | null) {
+  return !deliveredAt || Date.now() < new Date(deliveredAt).getTime() + RETURN_DAYS * 864e5
+}
+
 type Address = {
   full_name?: string
   line1?: string
@@ -31,7 +40,7 @@ export default async function AccountOrderPage({ params }: Props) {
   const { data: order } = await supabase
     .from('orders')
     .select(
-      'id, number, status, created_at, total_ore, tax_ore, shipping_address, tracking_url, order_items(id, name, variant_label, qty, line_total_ore)',
+      'id, number, status, created_at, delivered_at, total_ore, tax_ore, shipping_address, tracking_url, order_items(id, name, variant_label, qty, line_total_ore), returns(id, status, items, requested_at)',
     )
     .eq('id', id)
     .maybeSingle()
@@ -40,6 +49,37 @@ export default async function AccountOrderPage({ params }: Props) {
   const tc = await getTranslations('cart')
   const format = await getFormatter()
   const a = order.shipping_address as Address
+
+  // Mirrors request_return (which has the final say): open while the order is paid or later and,
+  // once delivered, for the return window; only units not already asked for.
+  const asked = new Map<string, number>()
+  for (const r of order.returns.filter((r) => r.status !== 'rejected')) {
+    for (const i of r.items as { order_item_id: string; qty: number }[]) {
+      asked.set(i.order_item_id, (asked.get(i.order_item_id) ?? 0) + i.qty)
+    }
+  }
+  const returnable = order.order_items
+    .map((i) => ({
+      id: i.id,
+      name: i.name,
+      variantLabel: i.variant_label,
+      returnable: i.qty - (asked.get(i.id) ?? 0),
+    }))
+    .filter((i) => i.returnable > 0)
+  const windowOpen = returnWindowOpen(order.delivered_at)
+  const canReturn = RETURNABLE.has(order.status) && windowOpen && returnable.length > 0
+  const returnKeys = [
+    'returnQty',
+    'returnReason',
+    'returnSubmit',
+    'returnOk',
+    'returnNone',
+    'returnWindow',
+    'returnNotReturnable',
+    'returnQtyExceeded',
+    'limited',
+    'error',
+  ]
 
   return (
     <section className="shell grid max-w-[56rem]! gap-10 pt-[calc(var(--header-h)+6vh)] pb-24">
@@ -87,6 +127,32 @@ export default async function AccountOrderPage({ params }: Props) {
           {tc('vatIncluded', { amount: formatPrice(order.tax_ore, locale) })}
         </p>
       </div>
+      {(canReturn || order.returns.length > 0) && (
+        <div className="hairline border-t pt-8">
+          <h2 className="type-label mb-3">{t('returns')}</h2>
+          {order.returns.length > 0 && (
+            <ul className="mb-6 grid gap-2 text-ash">
+              {order.returns.map((r) => (
+                <li key={r.id} className="flex justify-between gap-4">
+                  <span>
+                    {t('returnRequested', {
+                      date: format.dateTime(new Date(r.requested_at), { dateStyle: 'medium' }),
+                    })}
+                  </span>
+                  <span className="type-label">{t(`returnStatus.${r.status}`)}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+          {canReturn && <p className="mb-6 max-w-[52ch] text-ash">{t('returnBody')}</p>}
+          {/* Always mounted while this section shows, so the confirmation survives the refresh. */}
+          <ReturnForm
+            orderId={order.id}
+            items={canReturn ? returnable : []}
+            copy={Object.fromEntries(returnKeys.map((k) => [k, t(k)]))}
+          />
+        </div>
+      )}
       <div>
         <h2 className="type-label mb-3">{t('shipTo')}</h2>
         <address className="text-ash not-italic">

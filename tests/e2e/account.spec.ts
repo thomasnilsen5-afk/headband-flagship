@@ -35,7 +35,7 @@ test.describe('account', () => {
     await expect(row).toContainText('Betalt')
     await row.click()
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(`Ordre ${number}`)
-    await expect(page.getByText('NACRE')).toBeVisible()
+    await expect(page.getByText('NACRE').first()).toBeVisible()
 
     await page.goto('/konto')
     await page.getByRole('button', { name: 'Logg ut' }).click()

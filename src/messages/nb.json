@@ -99,7 +99,10 @@
     "backInStock": "Gi meg beskjed når den er tilbake",
     "dropUpcoming": "Slippes {date}",
     "dropLimit": "Maks {count} per kunde",
-    "placeholder": "Plassholderprodukt"
+    "placeholder": "Plassholderprodukt",
+    "save": "Lagre",
+    "saved": "Lagret",
+    "saveSignIn": "Logg inn for å lagre"
   },
   "footer": {
     "tagline": "Tekniske pannebånd. Designet i Norge.",
@@ -298,6 +301,50 @@
     "track": "Spor pakken",
     "items": "Varer",
     "total": "Totalt",
-    "shipTo": "Leveres til"
+    "shipTo": "Leveres til",
+    "nav": {
+      "orders": "Ordre",
+      "addresses": "Adresser",
+      "wishlist": "Ønskeliste"
+    },
+    "addresses": "Adresser",
+    "noAddresses": "Ingen lagrede adresser.",
+    "addAddress": "Legg til adresse",
+    "label": "Navn på adressen (valgfritt)",
+    "fullName": "Fullt navn",
+    "line1": "Adresse",
+    "line2": "Leilighet, c/o (valgfritt)",
+    "postalCode": "Postnummer",
+    "city": "Sted",
+    "country": "Land",
+    "phone": "Mobil (valgfritt)",
+    "isDefault": "Bruk som standard i kassen",
+    "save": "Lagre adresse",
+    "saved": "Adressen er lagret.",
+    "delete": "Slett",
+    "makeDefault": "Gjør til standard",
+    "default": "Standard",
+    "fieldsInvalid": "Sjekk feltene som er markert.",
+    "wishlist": "Ønskeliste",
+    "emptyWishlist": "Ingenting lagret ennå. Trykk «Lagre» på et objekt for å samle det her.",
+    "remove": "Fjern",
+    "returns": "Retur",
+    "returnBody": "Velg det du vil sende tilbake. Du har 14 dagers angrerett og 30 dagers åpent kjøp fra levering.",
+    "returnQty": "Antall å returnere",
+    "returnReason": "Grunn (valgfritt)",
+    "returnSubmit": "Be om retur",
+    "returnOk": "Returen er registrert. Vi sender instruksjoner på e-post.",
+    "returnNone": "Velg minst én vare.",
+    "returnWindow": "Returfristen for denne ordren er ute.",
+    "returnNotReturnable": "Denne ordren kan ikke returneres.",
+    "returnQtyExceeded": "Du har allerede bedt om retur av disse varene.",
+    "returnStatus": {
+      "requested": "Forespurt",
+      "approved": "Godkjent",
+      "received": "Mottatt",
+      "refunded": "Refundert",
+      "rejected": "Avvist"
+    },
+    "returnRequested": "Retur {date}"
   }
 }
