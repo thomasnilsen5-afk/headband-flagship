@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { checkoutToTestPayment, signIn } from './helpers'
+import { checkoutToTestPayment, expectEmail, signIn } from './helpers'
 
 const unique = (tag: string, project: string) => `e2e-${tag}-${project}-${Date.now()}@example.com`
 
@@ -54,6 +54,7 @@ test.describe('account extras', () => {
     await page.getByRole('textbox', { name: 'Grunn (valgfritt)' }).fill('Feil størrelse')
     await page.getByRole('button', { name: 'Be om retur' }).click()
     await expect(page.getByText('Returen er registrert')).toBeVisible()
+    await expectEmail(request, email, /^Retur for ordre \d+$/)
 
     await page.reload()
     await expect(page.getByText('Forespurt')).toBeVisible()

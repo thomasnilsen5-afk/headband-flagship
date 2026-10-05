@@ -1,4 +1,6 @@
 import 'server-only'
+import { after } from 'next/server'
+import { sendOrderConfirmation } from '@/lib/email/orders'
 import { log } from '@/lib/log'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { stripeSessionStatus } from './stripe'
@@ -24,8 +26,11 @@ export async function confirmPayment(opts: {
     p_raw: (opts.raw ?? null) as never,
   })
   if (error) throw new Error(`confirm_order_payment: ${error.message}`)
-  if (data)
+  if (data) {
     log.info('order.paid', { orderId: opts.orderId, provider: opts.provider, status: opts.status })
+    // After the response: the provider gets its 200 without waiting on email delivery.
+    after(() => sendOrderConfirmation(opts.orderId))
+  }
   return data === true
 }
 

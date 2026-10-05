@@ -66,3 +66,25 @@ export async function signIn(page: Page, request: APIRequestContext, email: stri
   await page.getByRole('button', { name: 'Logg inn' }).click()
   await expect(page).toHaveURL(/\/konto$/)
 }
+
+/** Waits for an email to this address whose subject matches; returns how many matched. */
+export async function expectEmail(request: APIRequestContext, to: string, subject: RegExp) {
+  let found = ''
+  let count = 0
+  await expect
+    .poll(
+      async () => {
+        const res = await request.get(
+          `${MAILPIT}/api/v1/search?query=${encodeURIComponent(`to:"${to}"`)}`,
+        )
+        const { messages } = (await res.json()) as { messages: { Subject: string }[] }
+        const matches = messages.map((m) => m.Subject).filter((s) => subject.test(s))
+        count = matches.length
+        found = matches[0] ?? ''
+        return found
+      },
+      { timeout: 15_000 },
+    )
+    .toMatch(subject)
+  return count
+}
