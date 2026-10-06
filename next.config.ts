@@ -23,6 +23,9 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['three', '@react-three/fiber'],
     // ~11 KB of CSS: inlining removes two render-blocking requests from the LCP path.
     inlineCss: true,
+    // Review photos are downscaled in the browser first (~0.3 MB each); this leaves room for
+    // three while staying under Vercel's 4.5 MB request limit.
+    serverActions: { bodySizeLimit: '4mb' },
   },
   async headers() {
     return [{ source: '/:path*', headers: securityHeaders({ supabaseUrl, dev }) }]

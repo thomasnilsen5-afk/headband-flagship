@@ -88,3 +88,20 @@ export async function expectEmail(request: APIRequestContext, to: string, subjec
     .toMatch(subject)
   return count
 }
+
+const api = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const secret = process.env.SUPABASE_SECRET_KEY!
+
+/** Promotes a signed-up user to admin with the service key (what an owner does once). */
+export async function makeAdmin(request: APIRequestContext, email: string) {
+  const headers = { apikey: secret, Authorization: `Bearer ${secret}` }
+  const res = await request.get(`${api}/auth/v1/admin/users?per_page=1000`, { headers })
+  const { users } = (await res.json()) as { users: { id: string; email: string }[] }
+  const id = users.find((u) => u.email === email)?.id
+  expect(id).toBeTruthy()
+  const patch = await request.patch(`${api}/rest/v1/profiles?id=eq.${id}`, {
+    headers: { ...headers, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
+    data: { role: 'admin' },
+  })
+  expect(patch.ok()).toBeTruthy()
+}

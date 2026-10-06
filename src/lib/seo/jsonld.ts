@@ -5,7 +5,13 @@ import { siteUrl } from '@/lib/env'
 const nok = (ore: number) => (ore / 100).toFixed(2)
 
 /** schema.org Product with one Offer per variant (price incl. MVA, live availability at render). */
-export function productJsonLd(p: ProductDetail, url: string) {
+type ReviewSummary = {
+  count: number
+  average: number
+  reviews: { rating: number; authorName: string; body: string; publishedAt: string }[]
+}
+
+export function productJsonLd(p: ProductDetail, url: string, r?: ReviewSummary) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -16,6 +22,23 @@ export function productJsonLd(p: ProductDetail, url: string) {
     url,
     image: [`${siteUrl}/og/products/${p.slug}`],
     material: p.materials.map((m) => m.name).join(', ') || undefined,
+    // Only real, moderated customer reviews; omitted entirely when there are none.
+    aggregateRating: r?.count
+      ? {
+          '@type': 'AggregateRating',
+          ratingValue: r.average,
+          reviewCount: r.count,
+          bestRating: 5,
+          worstRating: 1,
+        }
+      : undefined,
+    review: r?.reviews.slice(0, 10).map((x) => ({
+      '@type': 'Review',
+      reviewRating: { '@type': 'Rating', ratingValue: x.rating, bestRating: 5, worstRating: 1 },
+      author: { '@type': 'Person', name: x.authorName },
+      reviewBody: x.body,
+      datePublished: x.publishedAt.slice(0, 10),
+    })),
     offers: p.variants.map((v) => ({
       '@type': 'Offer',
       sku: v.sku,
