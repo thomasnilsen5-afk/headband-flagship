@@ -639,8 +639,14 @@ isOneToOne: false
         isOneToOne: true
         isSetofReturn: false
       } },
+"mark_order_delivered":
+{ Args: { "p_actor": string,"p_order_id": string }; Returns: boolean
+                           },
 "mark_order_paid":
 { Args: { "p_amount_ore": number,"p_order_id": string,"p_provider": Database["public"]['Enums']["payment_provider"],"p_provider_ref": string,"p_raw"?: Json }; Returns: boolean
+                           },
+"mark_order_shipped":
+{ Args: { "p_actor": string,"p_carrier": string,"p_order_id": string,"p_tracking_number": string,"p_tracking_url": string }; Returns: boolean
                            },
 "place_order":
 { Args: { "p_items": Json,"p_order": Json,"p_reservation_minutes"?: number }; Returns: {
@@ -774,6 +780,26 @@ isOneToOne: false
         to: "products"
         isOneToOne: false
         isSetofReturn: true
+      } },
+"set_return_status":
+{ Args: { "p_actor": string,"p_refund_ore": number,"p_return_id": string,"p_status": Database["public"]['Enums']["return_status"] }; Returns: {
+              "id": string,
+"items": NonNullable<Json>,
+"order_id": string,
+"reason": string | null,
+"refund_ore": number | null,
+"requested_at": string,
+"resolved_at": string | null,
+"staff_notes": string | null,
+"status": Database["public"]['Enums']["return_status"],
+"updated_at": string,
+"user_id": string | null
+            }
+                          SetofOptions: {
+        from: "*"
+        to: "returns"
+        isOneToOne: true
+        isSetofReturn: false
       } }
           }
           Enums: {

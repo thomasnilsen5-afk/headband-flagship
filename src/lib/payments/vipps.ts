@@ -77,6 +77,30 @@ export async function createVippsPayment(req: PaymentRequest): Promise<PaymentSt
   return { redirectUrl: json.redirectUrl, providerRef: reference }
 }
 
+/** Capture (at shipment) or refund (after a return) part or all of a reserved payment. */
+export async function vippsModify(
+  action: 'capture' | 'refund',
+  reference: string,
+  amountOre: number,
+  idempotencyKey: string,
+) {
+  const res = await fetch(
+    `${base()}/epayment/v1/payments/${encodeURIComponent(reference)}/${action}`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${await accessToken()}`,
+        'Content-Type': 'application/json',
+        'Idempotency-Key': idempotencyKey,
+        ...systemHeaders(),
+      },
+      body: JSON.stringify({ modificationAmount: { currency: 'NOK', value: amountOre } }),
+      cache: 'no-store',
+    },
+  )
+  if (!res.ok) throw new Error(`Vipps ${action} ${res.status}: ${await res.text()}`)
+}
+
 export async function getVippsPayment(reference: string) {
   const res = await fetch(`${base()}/epayment/v1/payments/${encodeURIComponent(reference)}`, {
     headers: { Authorization: `Bearer ${await accessToken()}`, ...systemHeaders() },
