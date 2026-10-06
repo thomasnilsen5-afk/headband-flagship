@@ -27,6 +27,12 @@ export const routing = defineRouting({
     '/account/orders/[id]': { nb: '/konto/ordre/[id]', en: '/account/orders/[id]' },
     '/account/addresses': { nb: '/konto/adresser', en: '/account/addresses' },
     '/account/wishlist': { nb: '/konto/onskeliste', en: '/account/wishlist' },
+    // Back office: Norwegian-only tool, same paths in both locales.
+    '/admin': '/admin',
+    '/admin/orders': { nb: '/admin/ordre', en: '/admin/orders' },
+    '/admin/orders/[id]': { nb: '/admin/ordre/[id]', en: '/admin/orders/[id]' },
+    '/admin/stock': { nb: '/admin/lager', en: '/admin/stock' },
+    '/admin/returns': { nb: '/admin/retur', en: '/admin/returns' },
     '/privacy': { nb: '/personvern', en: '/privacy' },
     '/terms': { nb: '/vilkar', en: '/terms' },
     '/returns': { nb: '/retur-og-angrerett', en: '/returns' },
