@@ -346,5 +346,29 @@
       "rejected": "Rejected"
     },
     "returnRequested": "Return {date}"
+  },
+  "reviews": {
+    "title": "Reviews",
+    "none": "No reviews yet.",
+    "summary": "{average} of 5 · {count, plural, one {# review} other {# reviews}}",
+    "verified": "Verified purchase",
+    "write": "Write a review",
+    "formTitle": "Review {name}",
+    "rating": "Rating",
+    "stars": "{n, plural, one {# star} other {# stars}}",
+    "headline": "Headline (optional)",
+    "body": "What do you think?",
+    "authorName": "Display name",
+    "photos": "Photos (optional, up to 3)",
+    "photosHint": "JPEG, PNG, WebP or AVIF, max 8 MB. We remove location and camera data before publishing.",
+    "submit": "Submit",
+    "sending": "Sending …",
+    "ok": "Thank you! Your review is published once we have looked it over.",
+    "invalid": "Check the highlighted fields.",
+    "duplicate": "You have already reviewed this object.",
+    "photo": "One of the photos could not be used. Check format and size.",
+    "limited": "Too many attempts. Please wait.",
+    "error": "Something went wrong. Please try again.",
+    "photoAlt": "Customer photo {n} by {name}"
   }
 }

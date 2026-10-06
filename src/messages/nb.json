@@ -346,5 +346,29 @@
       "rejected": "Avvist"
     },
     "returnRequested": "Retur {date}"
+  },
+  "reviews": {
+    "title": "Anmeldelser",
+    "none": "Ingen anmeldelser ennå.",
+    "summary": "{average} av 5 · {count, plural, one {# anmeldelse} other {# anmeldelser}}",
+    "verified": "Verifisert kjøp",
+    "write": "Skriv en anmeldelse",
+    "formTitle": "Anmeld {name}",
+    "rating": "Vurdering",
+    "stars": "{n, plural, one {# stjerne} other {# stjerner}}",
+    "headline": "Overskrift (valgfritt)",
+    "body": "Hva synes du?",
+    "authorName": "Navn som vises",
+    "photos": "Bilder (valgfritt, opptil 3)",
+    "photosHint": "JPEG, PNG, WebP eller AVIF, maks 8 MB. Vi fjerner posisjon og kameradata før publisering.",
+    "submit": "Send inn",
+    "sending": "Sender …",
+    "ok": "Takk! Anmeldelsen publiseres når vi har sett over den.",
+    "invalid": "Sjekk feltene som er markert.",
+    "duplicate": "Du har allerede anmeldt dette objektet.",
+    "photo": "Ett av bildene kunne ikke brukes. Sjekk format og størrelse.",
+    "limited": "For mange forsøk. Vent litt.",
+    "error": "Noe gikk galt. Prøv igjen.",
+    "photoAlt": "Kundebilde {n} av {name}"
   }
 }

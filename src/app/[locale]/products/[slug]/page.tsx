@@ -9,8 +9,10 @@ import { getPathname, Link } from '@/i18n/navigation'
 import { routing, type Locale } from '@/i18n/routing'
 import { getProduct, getProductSlugs } from '@/lib/catalog'
 import { WishlistButton } from '@/components/account/WishlistButton'
+import { Reviews } from '@/components/reviews/Reviews'
 import { dropPhase } from '@/lib/commerce'
 import { siteUrl } from '@/lib/env'
+import { getPublishedReviews } from '@/lib/reviews'
 import { jsonLdScript, productJsonLd } from '@/lib/seo/jsonld'
 
 export const revalidate = 300
@@ -66,6 +68,7 @@ export default async function ProductPage({ params }: Props) {
     timeStyle: 'short',
     timeZone: 'Europe/Oslo',
   })
+  const reviews = await getPublishedReviews(product.id)
   const url = `${siteUrl}${getPathname({ href: { pathname: '/products/[slug]', params: { slug } }, locale })}`
   const weight = Number(product.specs.weight_g ?? 0)
   const width = Number(product.specs.width_mm ?? 0)
@@ -74,7 +77,7 @@ export default async function ProductPage({ params }: Props) {
     <article className="shell pt-[calc(var(--header-h)+4vh)]">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: jsonLdScript(productJsonLd(product, url)) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(productJsonLd(product, url, reviews)) }}
       />
 
       <nav aria-label="Brødsmuler" className="type-label mb-10">
@@ -213,6 +216,9 @@ export default async function ProductPage({ params }: Props) {
           </ul>
         </section>
       )}
+      <div className="mt-[12vh]">
+        <Reviews slug={slug} {...reviews} />
+      </div>
       <Reveal />
     </article>
   )
